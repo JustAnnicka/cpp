@@ -32,8 +32,8 @@ int main (int argc, char *argv[])
 /* 
 //ALTERNATIVE
 #include <iostream>
-#include <stdlib.h>
-#include <string.h>
+#include <stdlib.h> // dont think this is needed also is called <cstdlib> in c++
+#include <string>
 
 std::string to_upper(char *str)
 {

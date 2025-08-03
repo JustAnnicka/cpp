@@ -27,17 +27,6 @@
 #include <iomanip> //for fields and time
 #include <string>
 
-void    format_string(std::string str)
-{
-    std::string aux;
-
-    aux = str;
-    aux.resize(9);
-    aux += "."; // could also be done with append or at or back or the []operator
-    std::cout << std::setw(10) << aux << "|";
-    aux.clear();
-}
-
 void    list_contacts(void)
 {
     std::string firstName;
@@ -50,34 +39,47 @@ void    list_contacts(void)
 
     std::cout << std::setw(10) << "index" << "|";
     if (firstName.length() > 10)
-        format_string(firstName); // could also use the substring function here or the copy (str.copy)
+        std::cout << std::setw(10) << firstName.substr(0, 9) << "." << "|"; //check memmory leaks
     else
         std::cout << std::setw(10) << firstName << "|";
     if (lastName.length() > 10)
-        format_string(lastName);
+       std::cout << std::setw(10) << lastName.substr(0, 9) << "." << "|";
     else
         std::cout << std::setw(10) << lastName << "|";
     if (nickName.length() > 10)
-        format_string(nickName);
+        std::cout << std::setw(10) << nickName.substr(0, 9) << "." << "|";
     else
         std::cout << std::setw(10) << nickName << "|";
     std::cout << std::endl;
 }
 
+
+int ft_input(void)
+{
+    char line[256];
+
+    std::cin.getline(line, 256);
+    std::string  input(line);
+    
+    input.shrink_to_fit();
+    if (!input.compare("ADD"))
+        return(std::cout << "ADD detected" << std::endl ,1);
+    else if (!input.compare("SEARCH"))
+        return(std::cout << "SEARCH detected" << std::endl ,1);
+    else if (!input.compare("EXIT"))
+        exit(0); // am i allowed to use this???
+    return (0);
+}
 int main(int argc, char *argv[])
 {
-    //prompt input (ADD, SEARCH, EXIT)
-    //Check input and execute functions (or error)
     (void)argv;
     if (argc != 1)
         return (std::cout << "Error\nJust execute the program"<< std::endl, 0);
-    list_contacts();
-/*     while (1)
+    while (1)
     {
-        x = ft_input
-        if(!ft_input)
-            std::cout << "Error\nOnly ADD, SEARCH or EXIT are accepted commands"<< std::endl
-
-    } */
+        std::cout << "Please enter a command" << std::endl;
+        if(!ft_input())
+            std::cout << "Error\nOnly ADD, SEARCH or EXIT are valid commands"<< std::endl;
+    }
     return (0);
 }
