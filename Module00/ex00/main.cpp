@@ -43,7 +43,7 @@ std::string to_upper(char *str)
     while(str[i] != '\0')
     {
         if (str[i] >= 'a' && str[i] <= 'z')
-            str[i] = std::toupper(str[i]);
+            str[i] = std::toupper(str[i]); //could i just use std:uppercase
         i++;
     }
     return (str);

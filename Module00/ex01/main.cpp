@@ -16,10 +16,10 @@
 // ----> If the index is out of range or wrong define a relevant behaviour (error message)
 // ----> else display the contact information one field per line
 
-// --> EXIT
-// ---> The program quits and the contacts are lost forever!
+// --> EXIT DONE
+// ---> The program quits and the contacts are lost forever! DONE
 
-// All other input is ignored
+// All other input is ignored (IE NO ERROR MESSAGE???)
 
 // if more than 8 contacts are created delete/overwrite the oldest one
 
@@ -52,18 +52,63 @@ void    list_contacts(void)
         std::cout << std::setw(10) << nickName << "|";
     std::cout << std::endl;
 }
+class Contact
+{
+    private:
+        std::string secret;
+        std::string first_name;
+       // int phone_number;
+    public:
+        
+        void    set_name(std::string _fname);
+        std::string last_name;
+        std::string nickname;
+        std::string time;
+        int phone_number;
+        void        set_phonenumber();
+       // Contact(/* args */);
+       // ~Contact();
+};
 
+void    Contact::set_name(char *name)
+{
+    std::string  input;
+
+    //std::cout << "Enter name " << std::endl;
+    input = name;
+    first_name = input;
+
+}
+void    Contact::set_phonenumber()
+{
+    int n;
+    
+    std::cin >> n;
+    phone_number = n;
+   
+}
 
 int ft_input(void)
 {
     char line[256];
-
-    std::cin.getline(line, 256);
-    std::string  input(line);
-    
+    char name[256];
+    std::string  input;
+    Contact         Contact;
+    std::cin.getline(line, 256); //error handle line being over 256
+   // std::string  input(line); //are constructors allowed?
+    input = line;
     input.shrink_to_fit();
     if (!input.compare("ADD"))
-        return(std::cout << "ADD detected" << std::endl ,1);
+    {
+        Contact.set_phonenumber();
+        input.clear();
+
+        std::cout << "Enter name " << std::endl;
+        std::cin.getline(name, 256);
+        Contact.set_name(name);
+        std::cout << Contact.phone_number << Contact.first_name << std::endl;
+        return(1);
+    }
     else if (!input.compare("SEARCH"))
         return(std::cout << "SEARCH detected" << std::endl ,1);
     else if (!input.compare("EXIT"))
@@ -75,11 +120,12 @@ int main(int argc, char *argv[])
     (void)argv;
     if (argc != 1)
         return (std::cout << "Error\nJust execute the program"<< std::endl, 0);
+    std::cout << "Please enter a command" << std::endl;
     while (1)
     {
-        std::cout << "Please enter a command" << std::endl;
         if(!ft_input())
-            std::cout << "Error\nOnly ADD, SEARCH or EXIT are valid commands"<< std::endl;
+            continue ;
+            //std::cout << "Error\nOnly ADD, SEARCH or EXIT are valid commands"<< std::endl;
     }
     return (0);
 }
