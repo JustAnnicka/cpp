@@ -34,17 +34,16 @@ int main(int argc, char *argv[])
 
     (void)argv;
     if (argc != 1)
-        return (std::cout << "Error\nJust execute the program"<< std::endl, 0);
-    std::cout << "Please enter a command" << std::endl;
+        return (std::cout << RED << "Error\nJust execute the program"<< std::endl << END, 0);
     while (1)
     {
+        std::cout << GREY_B << "Please enter a command" << std::endl << END;
         std::getline(std::cin, input);
         if (input == "ADD")
             pb.new_entry();
         else if (input == "SEARCH")
         {
             pb.print_phonebook_list();
-            std::cout << "Please enter the Contact index to view" << std::endl;
             pb.view_entry();
         }
         else if (input == "EXIT")

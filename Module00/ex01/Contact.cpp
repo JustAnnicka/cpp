@@ -1,6 +1,3 @@
-// Stand for a phonebook contact
-// contacts must be instantiated as an instance of the Contacts class
-// -> each contact mus be an instance ofg the Contacts class
 #include "Contact.hpp"
 
 std::string get_input()
@@ -10,7 +7,12 @@ std::string get_input()
 
     std::cin.getline(line, 256);
     input = line;
-    return (line);
+    if (input.size() == 0)
+    {
+        std::cout << RED << "empty fields are not valid\n" << GREY << "please input data\n" << END;  
+        input = get_input();
+    }
+    return (input);
 }
 
 int get_number()
@@ -19,41 +21,35 @@ int get_number()
     int  nbr;
 
     std::cin.getline(line, 256); 
-    nbr = atoi(line); //could be done with a stringstream?
-    
+    nbr = atoi(line); //could be done with a stringstream? 
+    //need to numcheck this
     return (nbr);
 }
 
 Contact::Contact()
-{
-   
-}
+{}
+Contact::~Contact()
+{}
+
 void    Contact::setup()
 {
-    std::cout << "Whats's your name?" << std::endl;
+    std::cout << GREY << "Whats's your name?" << std::endl << END;
     first_name = get_input();
-    std::cout << "And your surname?" << std::endl;
+    std::cout << GREY << "And your surname?" << std::endl << END;
     last_name = get_input();
-    std::cout << "Can i get your number?" << std::endl;
-    phone_number =get_number();
-    std::cout << "give me your nickname?" << std::endl;
+    std::cout << GREY << "Can i get your number?" << std::endl << END;
+    phone_number = get_number();
+    std::cout << GREY << "give me your nickname?" << std::endl << END;
     nickname = get_input();
-    std::cout << "Tell me your dark secret." << std::endl;
+    std::cout << GREY << "Tell me your dark secret." << std::endl << END;
     secret = get_input();
 }
 
 void    Contact::display_contact()
 {
-    std::cout << first_name << std::endl;
-    std::cout << last_name << std::endl;
-    std::cout << nickname << std::endl;
-    std::cout << phone_number << std::endl;
-    std::cout << secret << std::endl;
+    std::cout << GREY << "fist name:  "  << END << first_name << std::endl;
+    std::cout << GREY << "last name:  "  << END << last_name << std::endl;
+    std::cout << GREY << "nickname:   "  << END << nickname << std::endl;
+    std::cout << GREY << "phonenumber: "  << END << phone_number << std::endl;
+    std::cout << GREY << "dark secret: "  << END << secret << std::endl;
 }
-
-/*
-Contact::~Contact()
-{
-
-} */
-

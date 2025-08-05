@@ -4,6 +4,12 @@
  #include <iostream>
  #include <cstdlib>
  #include <string>
+ #include <sstream> //needed for stream (possibe to do this differently?)
+
+ #define RED    "\033[31m"
+ #define GREY  	"\033[30m"     
+ #define GREY_B "\033[1,30m"     
+ #define END  	"\033[0m"
 
 class Contact
 {
@@ -17,7 +23,7 @@ class Contact
         void    setup();
         void    display_contact();
         Contact(); //constructor 
-       // ~Contact();
+        ~Contact();
 };
 
 #endif

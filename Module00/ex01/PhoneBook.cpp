@@ -8,20 +8,20 @@ void	PhoneBook::print_phonebook_list(void)
 	i = 0;
 	while (i < size)
 	{
-		std::cout << std::setw(11) << i << "|";
-		if (entrys[i].first_name.length() > 11)
-			std::cout << std::setw(11) << entrys[i].first_name.substr(0, 9) << "." << "|"; //check memmory leaks
+		std::cout << std::setw(10) << i << "|";
+		if (entrys[i].first_name.length() > 10)
+			std::cout << std::setw(10) <<  std:: internal << entrys[i].first_name.substr(0, 9) << "." << "|"; //check memmory leaks
 		else
-			std::cout << std::setw(11) << entrys[i].first_name << "|";
-		if (entrys[i].last_name.length() > 11)
-		std::cout << std::setw(11) << entrys[i].last_name.substr(0, 9) << "." << "|";
+			std::cout << std::setw(10) << std:: left << entrys[i].first_name << "|";
+		if (entrys[i].last_name.length() > 10)
+		std::cout << std::setw(10) << entrys[i].last_name.substr(0, 9) << "." << "|";
 		else
-			std::cout << std::setw(11) << entrys[i].last_name << "|";
-		if (entrys[i].nickname.length() > 11)
-			std::cout << std::setw(11) << entrys[i].nickname.substr(0, 9) << "." << "|";
+			std::cout << std::setw(10) << entrys[i].last_name << "|";
+		if (entrys[i].nickname.length() > 10)
+			std::cout << std::setw(10) << entrys[i].nickname.substr(0, 9) << "." << "|";
 		else
-			std::cout << std::setw(11) << entrys[i].nickname << "|";
-		std::cout << std::endl;
+			std::cout << std::setw(10) << entrys[i].nickname << "|";
+		std::cout << std::endl << END;
 		i++;
 	}
 }
@@ -43,7 +43,8 @@ void	PhoneBook::new_entry()
 	{
 		if (oldest == 8)
 			oldest = 0;
-		//delete orignal oldest entry contact
+		entrys[oldest].~Contact();
+	//	delete orignal oldest entry contact
 		entrys[oldest] = new_entry;
 		oldest++;
 	}
@@ -51,11 +52,23 @@ void	PhoneBook::new_entry()
 
 void	PhoneBook::view_entry()
 {
+	std::string	input	= " ";
 	int i;
-
-	i = get_number();
+	
+	if (size == 0)
+	{
+		std::cout << GREY << "No contacts to display! Create one with ADD" << END << std::endl;
+		return ;
+	}
+	std::cout << GREY << "Please enter the Contact index to view" << END << std::endl;
+	std::getline(std::cin, input); // need to check its only a digit
+	std::stringstream stream(input);
+	stream >> i;  
 	if (i > 8 || i > size)
-		std::cout << "not a valid index" << std::endl;
+		std::cout <<RED"not a valid index" << END << std::endl;
 	else
+	{
+		std::cout << GREY << "Contact #" << i << END << std::endl;
 		entrys[i].display_contact();
+	}
 }
