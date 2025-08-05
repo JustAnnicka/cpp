@@ -42,6 +42,14 @@ void    Contact::setup()
     secret = get_input();
 }
 
+void    Contact::display_contact()
+{
+    std::cout << first_name << std::endl;
+    std::cout << last_name << std::endl;
+    std::cout << nickname << std::endl;
+    std::cout << phone_number << std::endl;
+    std::cout << secret << std::endl;
+}
 
 /*
 Contact::~Contact()

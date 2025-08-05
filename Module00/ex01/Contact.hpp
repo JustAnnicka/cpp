@@ -15,7 +15,7 @@ class Contact
         std::string last_name;
         std::string nickname;
         void    setup();
-     // std::string time_created; //decided to work with a counter
+        void    display_contact();
         Contact(); //constructor 
        // ~Contact();
 };

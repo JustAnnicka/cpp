@@ -8,19 +8,19 @@ void	PhoneBook::print_phonebook_list(void)
 	i = 0;
 	while (i < size)
 	{
-		std::cout << std::setw(10) << i << "|";
-		if (entrys[i].first_name.length() > 10)
-			std::cout << std::setw(10) << entrys[i].first_name.substr(0, 9) << "." << "|"; //check memmory leaks
+		std::cout << std::setw(11) << i << "|";
+		if (entrys[i].first_name.length() > 11)
+			std::cout << std::setw(11) << entrys[i].first_name.substr(0, 9) << "." << "|"; //check memmory leaks
 		else
-			std::cout << std::setw(10) << entrys[i].first_name << "|";
-		if (entrys[i].last_name.length() > 10)
-		std::cout << std::setw(10) << entrys[i].last_name.substr(0, 9) << "." << "|";
+			std::cout << std::setw(11) << entrys[i].first_name << "|";
+		if (entrys[i].last_name.length() > 11)
+		std::cout << std::setw(11) << entrys[i].last_name.substr(0, 9) << "." << "|";
 		else
-			std::cout << std::setw(10) << entrys[i].last_name << "|";
-		if (entrys[i].nickname.length() > 10)
-			std::cout << std::setw(10) << entrys[i].nickname.substr(0, 9) << "." << "|";
+			std::cout << std::setw(11) << entrys[i].last_name << "|";
+		if (entrys[i].nickname.length() > 11)
+			std::cout << std::setw(11) << entrys[i].nickname.substr(0, 9) << "." << "|";
 		else
-			std::cout << std::setw(10) << entrys[i].nickname << "|";
+			std::cout << std::setw(11) << entrys[i].nickname << "|";
 		std::cout << std::endl;
 		i++;
 	}
@@ -45,7 +45,17 @@ void	PhoneBook::new_entry()
 			oldest = 0;
 		//delete orignal oldest entry contact
 		entrys[oldest] = new_entry;
-	//	entrys.pop(oldest);
 		oldest++;
 	}
+}
+
+void	PhoneBook::view_entry()
+{
+	int i;
+
+	i = get_number();
+	if (i > 8 || i > size)
+		std::cout << "not a valid index" << std::endl;
+	else
+		entrys[i].display_contact();
 }

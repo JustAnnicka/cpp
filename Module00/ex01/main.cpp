@@ -2,11 +2,12 @@
 
 // At program startup the phonebook is empty.
 // User is prompted to enter one of three commands
-// -> ADD, SEARCH and EXIT (no other is accepted)
+// -> ADD, SEARCH and EXIT (no other is accepted) (DONE)
 // --> ADD: save a new contact
 // ---> user is prompted to input information of the new contact one field at a time
 // ----> (once all are complete add the contact to the phonebook)
 // --->Contact fields are first name, last name, nickname, phone number, and darkest secret, (fields can't be empty)
+//---> if contact number is over 8 replace the oldest contact in the phonebook
 
 // --> SEARCH: display a specific contact
 // ---> display the saved contacts as a list of 4 collumns: index, first name, last name, and nickname
@@ -21,35 +22,15 @@
 
 // All other input is ignored (IE NO ERROR MESSAGE???)
 
-// if more than 8 contacts are created delete/overwrite the oldest one
+// if more than 8 contacts are created delete/overwrite the oldest one (SEMI-DONE)
 
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
 
-int ft_input(PhoneBook *pb)
-{
-    char line[256];
-    std::string  input;
-    
-    std::cin.getline(line, 256); //error handle line being over 256
-    input = line;
-    input.resize(input.size());
-    if (!input.compare("ADD"))
-        pb->new_entry();
-    else if (!input.compare("SEARCH"))
-    {
-        pb->print_phonebook_list();
-       // return(std::cout << "SEARCH detected" << std::endl ,1);
-    }
-   /*  else if (!input.compare("EXIT"))
-        exit(0); // am i allowed to use this??? */
-    else if (!input.compare("EXIT"))
-        return (0);
-    return (1);
-}
 int main(int argc, char *argv[])
 {
     PhoneBook   pb;
+    std::string input = " ";
 
     (void)argv;
     if (argc != 1)
@@ -57,11 +38,17 @@ int main(int argc, char *argv[])
     std::cout << "Please enter a command" << std::endl;
     while (1)
     {
-        if(!ft_input(&pb))
+        std::getline(std::cin, input);
+        if (input == "ADD")
+            pb.new_entry();
+        else if (input == "SEARCH")
+        {
+            pb.print_phonebook_list();
+            std::cout << "Please enter the Contact index to view" << std::endl;
+            pb.view_entry();
+        }
+        else if (input == "EXIT")
             break ;
-/*         if(!ft_input())
-            continue ; */
-            //std::cout << "Error\nOnly ADD, SEARCH or EXIT are valid commands"<< std::endl;
     }
     return (0);
 }
