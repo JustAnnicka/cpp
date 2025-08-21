@@ -1,7 +1,7 @@
-NAME = GlobalBanskterUnited
+NAME = Zombie
 CC = c++ -Wall -Wextra -Werror -std=c++98 
 
-SRC := Account.cpp tests.cpp
+SRC := main.cpp Zombie.cpp newZombie.cpp randomChump.cpp
 OBJ := $(SRC:.cpp=.o)
 
 GREEN=\033[0;32m
@@ -30,4 +30,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
