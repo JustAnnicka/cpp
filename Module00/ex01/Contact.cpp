@@ -20,9 +20,14 @@ int get_number()
     char line[256];
     int  nbr;
 
-    std::cin.getline(line, 256); 
-    nbr = atoi(line); //could be done with a stringstream? 
-    //need to numcheck this
+    std::cin.getline(line, 256);
+    if (!atoi(line))
+    {
+        std::cout << RED << "invalid input\n" << END << GREY << "Enter number\n" << END; 
+        nbr = get_number();
+    }
+    else
+        nbr = atoi(line);
     return (nbr);
 }
 

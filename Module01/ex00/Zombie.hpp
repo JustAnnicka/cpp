@@ -13,9 +13,7 @@ class	Zombie
 		void	announce(void); //should be a member function?
 		Zombie();
 		Zombie(const std::string name);
-		~Zombie();
-
-	
+		~Zombie();	
 };
 
 Zombie* newZombie( std::string name );

@@ -1,7 +1,7 @@
-NAME = Horde
+NAME = ThisIsBrain
 CC = c++ -Wall -Wextra -Werror -std=c++98 
 
-SRC := main.cpp Zombie.cpp zombieHorde.cpp
+SRC := main.cpp
 OBJ := $(SRC:.cpp=.o)
 
 GREEN=\033[0;32m

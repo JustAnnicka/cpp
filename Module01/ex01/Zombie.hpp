@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:29:54 by aehrl             #+#    #+#             */
-/*   Updated: 2025/08/21 17:33:28 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/08/21 17:43:37 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ class	Zombie
 		Zombie();
 		Zombie(const std::string name);
 		//I should make a copy function//
-
 		~Zombie();
 	
 };

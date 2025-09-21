@@ -1,4 +1,3 @@
-// Phonebook must be instantiated as an instance of the PhoneBook class(same for contacts)
 #include "PhoneBook.hpp"
 
 void	PhoneBook::print_phonebook_list(void)
@@ -44,7 +43,6 @@ void	PhoneBook::new_entry()
 		if (oldest == 8)
 			oldest = 0;
 		entrys[oldest].~Contact();
-	//	delete orignal oldest entry contact
 		entrys[oldest] = new_entry;
 		oldest++;
 	}
@@ -63,8 +61,8 @@ void	PhoneBook::view_entry()
 	std::cout << GREY << "Please enter the Contact index to view" << END << std::endl;
 	std::getline(std::cin, input); // need to check its only a digit
 	std::stringstream stream(input);
-	stream >> i;  
-	if (i > 8 || i > size)
+	stream >> i;  //check if this is a valid input
+	if (i > 8 || i > size) //maybe a while loop to keep them entering numbers
 		std::cout <<RED"not a valid index" << END << std::endl;
 	else
 	{
