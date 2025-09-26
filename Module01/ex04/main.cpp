@@ -19,11 +19,9 @@ std::string	ft_replace_strings(std::string text, std::string s1, std::string s2)
 	size_t found = text.find(s1);
  	while (found!=std::string::npos)
 	{ 		
-	//	std::cout << "found pos: " << found << std::endl;
 		text.erase(found, s1.length());
 		text.insert(found, s2);
 		found = text.find(s1);
-	//	std::cout << "new text: " << text << std::endl;
 	}
 	return (text);
 }
@@ -36,62 +34,26 @@ int	main(int argc, char *argv[])
 		(void)argv;
 		return (1);
 	}
-	std::string	s1 = argv[2];
-	std::string	s2 = argv[3];
 	std::string	out = argv[1];
 	out += ".replace";
-	//std::cout << out;
 	const char *output = out.c_str();
 	std::ifstream file (argv[1]);
 	std::ofstream outfile (output ,std::ofstream::binary);
 	if (file.is_open()) 
 	{
 		file.seekg (0,file.end);
-		// I think this is wrong buffer size should be of original file
-		// The calc for the size should occur at the end once i know the number of occurances
-		//long size = s1.length() - s2.length() + 1;
 		long size = file.tellg();
 		file.seekg (0);
-		// print file:
-		//char c = file.get();
 		char* buffer = new char[size];
-
-		// read content of infile
+		// read content of infile into buffer
 		file.read (buffer,size);
 		std::string text = buffer;
-
-	//	std::cout << buffer;
-		text = ft_replace_strings(text, s1, s2);
-	//	std::cout << text;
+		text = ft_replace_strings(text, argv[2], argv[3]);
 		buffer = (char *)text.c_str();
 		// write to outfile
 		outfile.write (buffer,text.length());
 		outfile.close();
  		file.close();
-		/* while (file.good()) 
-		{
-			std::cout << c;
-			c = file.get();
-		} 
-	} */
-		file.close();
 	}
-	
+	return (0);
 }
-
-/* // get size of file
-  infile.seekg (0,infile.end);
-  long size = infile.tellg();
-  infile.seekg (0);
-
-  // allocate memory for file content
-  char* buffer = new char[size];
-
-  // read content of infile
-  infile.read (buffer,size);
-
-  // write to outfile
-  outfile.write (buffer,size);
-
-  // release dynamically-allocated memory
-  delete[] buffer; */
