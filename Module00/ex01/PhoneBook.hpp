@@ -1,11 +1,8 @@
-// -> Has an array of contacts ->see contacts
-// --> Can store a max of 8 Contacts contacts[8]
-// Dynamic allocation is forbiden (No string thing??)
-
-#ifndef PHONEBOOK_H
+ #ifndef PHONEBOOK_H
  #define	PHONEBOOK_H
 
  #include <iomanip> 
+ #include <iostream>
  #include "Contact.hpp"
  #include <sstream>
 
@@ -22,5 +19,5 @@ class	PhoneBook
 		int	view_entry();
 };
 
-int get_number(); // allowed??
+int get_number();
 #endif

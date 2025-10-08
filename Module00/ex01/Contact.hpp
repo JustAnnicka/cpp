@@ -23,8 +23,8 @@ class Contact
         std::string nickname;
         int    setup();
         void    display_contact();
-        Contact(); //constructor 
-        ~Contact(); //destructor
+        Contact();
+        ~Contact();
 };
 
 #endif

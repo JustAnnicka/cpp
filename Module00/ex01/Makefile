@@ -1,5 +1,5 @@
 NAME = MyAwesomePhonebook
-CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CC = c++ -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
 
 SRC = main.cpp PhoneBook.cpp Contact.cpp
 OBJ = $(SRC:.cpp=.o)

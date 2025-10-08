@@ -61,12 +61,12 @@ int	PhoneBook::view_entry()
 		return (0);
 	}
 	std::cout << GREY << "Please enter the Contact index to view" << END << std::endl;
-	std::getline(std::cin, input); // need to check its only a digit
+	std::getline(std::cin, input); 
 	std::stringstream stream(input);
 	if (input == "")
             return (1);
-	stream >> i;  //check if this is a valid input
-	if (i > 8 || i > size || i < 0) //maybe a while loop to keep them entering numbers
+	stream >> i;
+	if (i > 8 || i > size || i < 0) 
 		std::cout <<RED"not a valid index" << END << std::endl;
 	else
 	{
