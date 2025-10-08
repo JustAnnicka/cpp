@@ -6,6 +6,7 @@
  #include <string>
 
  #define RED    "\033[31m"
+ #define GREEN    "\033[32m"
  #define GREY  	"\033[30m"     
  #define GREYB "\033[1,30m"     
  #define END  	"\033[0m"
@@ -20,7 +21,7 @@ class Contact
         std::string first_name;
         std::string last_name;
         std::string nickname;
-        void    setup();
+        int    setup();
         void    display_contact();
         Contact(); //constructor 
         ~Contact(); //destructor

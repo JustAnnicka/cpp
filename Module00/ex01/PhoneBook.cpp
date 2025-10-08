@@ -27,12 +27,13 @@ void	PhoneBook::print_phonebook_list(void)
 
 PhoneBook::PhoneBook() : size(0) {}
 
-void	PhoneBook::new_entry()
+int	PhoneBook::new_entry()
 {
 	Contact	new_entry;
 	static int	oldest;
 
-	new_entry.setup();
+	if(!new_entry.setup())
+		return (0);
 	if (size < 8)
 	{
 		entrys[size] = new_entry;
@@ -46,9 +47,10 @@ void	PhoneBook::new_entry()
 		entrys[oldest] = new_entry;
 		oldest++;
 	}
+	return (1);
 }
 
-void	PhoneBook::view_entry()
+int	PhoneBook::view_entry()
 {
 	std::string	input	= " ";
 	int i;
@@ -56,17 +58,20 @@ void	PhoneBook::view_entry()
 	if (size == 0)
 	{
 		std::cout << GREY << "No contacts to display! Create one with ADD" << END << std::endl;
-		return ;
+		return (0);
 	}
 	std::cout << GREY << "Please enter the Contact index to view" << END << std::endl;
 	std::getline(std::cin, input); // need to check its only a digit
 	std::stringstream stream(input);
+	if (input == "")
+            return (1);
 	stream >> i;  //check if this is a valid input
-	if (i > 8 || i > size) //maybe a while loop to keep them entering numbers
+	if (i > 8 || i > size || i < 0) //maybe a while loop to keep them entering numbers
 		std::cout <<RED"not a valid index" << END << std::endl;
 	else
 	{
 		std::cout << GREY << "Contact #" << i << END << std::endl;
 		entrys[i].display_contact();
 	}
+	return(1);
 }

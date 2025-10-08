@@ -55,5 +55,7 @@ int	main(int argc, char *argv[])
 		outfile.close();
  		file.close();
 	}
+
+	//have to free buffer 
 	return (0);
 }

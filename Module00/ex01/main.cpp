@@ -32,16 +32,24 @@ int main(int argc, char *argv[])
     (void)argv;
     if (argc != 1)
         return (std::cout << RED << "Error\nJust execute the program"<< std::endl << END, 1);
+   // std::cout << GREYB << "valid commands: ADD | SEARCH | EXIT" << std::endl << END;
     while (1)
     {
+       // std::getline(std::cin, input);
+        //ADD CTRL+D Functionality 
         std::cout << GREYB << "valid commands: ADD | SEARCH | EXIT" << std::endl << END;
-        std::getline(std::cin, input);
+        if (!std::getline(std::cin, input))
+            return (1);
         if (input == "ADD")
-            pb.new_entry();
+        {
+            if (!pb.new_entry())
+                break ;
+        }
         else if (input == "SEARCH")
         {
             pb.print_phonebook_list();
-            pb.view_entry();
+            if (!pb.view_entry())
+                break ;
         }
         else if (input == "EXIT")
             break ;

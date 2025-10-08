@@ -18,8 +18,8 @@ class	PhoneBook
 		int size;
 		PhoneBook();
 		void	print_phonebook_list();
-		void	new_entry();
-		void	view_entry();
+		int		new_entry();
+		int	view_entry();
 };
 
 int get_number(); // allowed??
