@@ -15,8 +15,8 @@ class	PhoneBook
 		int size;
 		PhoneBook();
 		void	print_phonebook_list();
-		int		new_entry();
-		int	view_entry();
+		void	new_entry();
+		void	view_entry();
 };
 
 int get_number();

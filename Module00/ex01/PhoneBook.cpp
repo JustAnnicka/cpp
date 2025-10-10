@@ -5,21 +5,24 @@ void	PhoneBook::print_phonebook_list(void)
 	int	i;
 
 	i = 0;
+	std::cout << GREY << "index     |name      |surname   |nickname"  <<std::endl << END;
 	while (i < size)
 	{
-		std::cout << std::setw(10) << i << "|";
+		std::cout << std::setw(10) <<  std:: left << i << "|";
 		if (entrys[i].first_name.length() > 10)
-			std::cout << std::setw(10) <<  std:: internal << entrys[i].first_name.substr(0, 9) << "." << "|"; //check memmory leaks
+			std::cout << std::setw(10) << entrys[i].first_name.substr(0, 9) + "."; //check memmory leaks
 		else
-			std::cout << std::setw(10) << std:: left << entrys[i].first_name << "|";
+			std::cout << std::setw(10) << entrys[i].first_name;
+		std::cout << "|";
 		if (entrys[i].last_name.length() > 10)
-		std::cout << std::setw(10) << entrys[i].last_name.substr(0, 9) << "." << "|";
+			std::cout << std::setw(10) << entrys[i].last_name.substr(0, 9) + ".";
 		else
-			std::cout << std::setw(10) << entrys[i].last_name << "|";
+			std::cout << std::setw(10) << entrys[i].last_name;
+		std::cout << "|";
 		if (entrys[i].nickname.length() > 10)
-			std::cout << std::setw(10) << entrys[i].nickname.substr(0, 9) << "." << "|";
+			std::cout << std::setw(10) << entrys[i].nickname.substr(0, 9) + ".";
 		else
-			std::cout << std::setw(10) << entrys[i].nickname << "|";
+			std::cout << std::setw(10) << entrys[i].nickname;
 		std::cout << std::endl << END;
 		i++;
 	}
@@ -27,13 +30,12 @@ void	PhoneBook::print_phonebook_list(void)
 
 PhoneBook::PhoneBook() : size(0) {}
 
-int	PhoneBook::new_entry()
+void	PhoneBook::new_entry()
 {
 	Contact	new_entry;
 	static int	oldest;
 
-	if(!new_entry.setup())
-		return (0);
+	new_entry.setup();
 	if (size < 8)
 	{
 		entrys[size] = new_entry;
@@ -47,10 +49,9 @@ int	PhoneBook::new_entry()
 		entrys[oldest] = new_entry;
 		oldest++;
 	}
-	return (1);
 }
 
-int	PhoneBook::view_entry()
+void	PhoneBook::view_entry()
 {
 	std::string	input	= " ";
 	int i;
@@ -58,13 +59,14 @@ int	PhoneBook::view_entry()
 	if (size == 0)
 	{
 		std::cout << GREY << "No contacts to display! Create one with ADD" << END << std::endl;
-		return (0);
+		return ;
 	}
+	print_phonebook_list();
 	std::cout << GREY << "Please enter the Contact index to view" << END << std::endl;
 	std::getline(std::cin, input); 
 	std::stringstream stream(input);
 	if (input == "")
-            return (1);
+            return ;
 	stream >> i;
 	if (i > 8 || i > size || i < 0) 
 		std::cout <<RED"not a valid index" << END << std::endl;
@@ -73,5 +75,4 @@ int	PhoneBook::view_entry()
 		std::cout << GREY << "Contact #" << i << END << std::endl;
 		entrys[i].display_contact();
 	}
-	return(1);
 }

@@ -21,7 +21,8 @@ class Contact
         std::string first_name;
         std::string last_name;
         std::string nickname;
-        int    setup();
+        void    get_number(std::string input);
+        void    setup();
         void    display_contact();
         Contact();
         ~Contact();
