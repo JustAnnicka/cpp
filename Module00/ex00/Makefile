@@ -1,7 +1,7 @@
 NAME = megaphone
 CC = c++ -Wall -Wextra -Werror -std=c++98
 
-SRC := main.cpp
+SRC := megaphone.cpp
 OBJ := $(SRC:.cpp=.o)
 
 GREEN=\033[0;32m

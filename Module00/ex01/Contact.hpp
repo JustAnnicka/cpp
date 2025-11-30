@@ -14,18 +14,28 @@
 
 class Contact
 {
-    private:
-        std::string secret;
-        int phone_number;
     public:
-        std::string first_name;
-        std::string last_name;
-        std::string nickname;
-        void    get_number(std::string input);
-        void    setup();
-        void    display_contact();
+        void        set_first_name(std::string first_name);
+        void        set_last_name(std::string last_name);
+        void        set_nickname(std::string nickname);
+        void        set_secret(std::string secret);
+        void        set_number(std::string input);
+        void        setup();
+        void        display_contact();
+
+        std::string  get_first_name();
+        std::string  get_last_name();
+        std::string  get_nickname();
         Contact();
         ~Contact();
+
+    private:
+        std::string _secret;
+        int         _phone_number;
+        std::string _first_name;
+        std::string _last_name;
+        std::string _nickname;
+   
 };
 
 #endif

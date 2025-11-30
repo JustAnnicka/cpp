@@ -9,20 +9,20 @@ void	PhoneBook::print_phonebook_list(void)
 	while (i < size)
 	{
 		std::cout << std::setw(10) <<  std:: left << i << "|";
-		if (entrys[i].first_name.length() > 10)
-			std::cout << std::setw(10) << entrys[i].first_name.substr(0, 9) + "."; //check memmory leaks
+		if (entrys[i].get_first_name().length() > 10)
+			std::cout << std::setw(10) << entrys[i].get_first_name().substr(0, 9) + "."; //check memmory leaks
 		else
-			std::cout << std::setw(10) << entrys[i].first_name;
+			std::cout << std::setw(10) << entrys[i].get_first_name();
 		std::cout << "|";
-		if (entrys[i].last_name.length() > 10)
-			std::cout << std::setw(10) << entrys[i].last_name.substr(0, 9) + ".";
+		if (entrys[i].get_last_name().length() > 10)
+			std::cout << std::setw(10) << entrys[i].get_last_name().substr(0, 9) + ".";
 		else
-			std::cout << std::setw(10) << entrys[i].last_name;
+			std::cout << std::setw(10) << entrys[i].get_last_name();
 		std::cout << "|";
-		if (entrys[i].nickname.length() > 10)
-			std::cout << std::setw(10) << entrys[i].nickname.substr(0, 9) + ".";
+		if (entrys[i].get_nickname().length() > 10)
+			std::cout << std::setw(10) << entrys[i].get_nickname().substr(0, 9) + ".";
 		else
-			std::cout << std::setw(10) << entrys[i].nickname;
+			std::cout << std::setw(10) << entrys[i].get_nickname();
 		std::cout << std::endl << END;
 		i++;
 	}
@@ -68,7 +68,7 @@ void	PhoneBook::view_entry()
 	if (input == "")
             return ;
 	stream >> i;
-	if (i > 8 || i > size || i < 0) 
+	if (stream.fail() || i > 8 || i > size -1 || i < 0) 
 		std::cout <<RED"not a valid index" << END << std::endl;
 	else
 	{

@@ -1,5 +1,5 @@
 #include "Account.hpp"
-#include <ctime> //to work with time and add the std thing so taht i add the proper structures
+#include <ctime>
 
 int Account::_totalAmount = 0;
 int Account::_nbAccounts = 0;
@@ -9,15 +9,12 @@ int Account::_totalNbWithdrawals = 0;
 Account::Account(){}
 void	Account::_displayTimestamp( void )
 {
-    //double check this with std::time
-   
     time_t rawtime;
     struct tm * timeinfo;
     char buffer [80];
 
     time (&rawtime);
     timeinfo = localtime (&rawtime);
-
     strftime (buffer,80,"%Y%m%d_%H%M%S",timeinfo);
     std::cout << "[" << buffer << "] ";
 }
