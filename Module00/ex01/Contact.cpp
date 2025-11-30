@@ -12,6 +12,7 @@ void Contact::set_first_name(std::string first_name)
     else
         this->_first_name = first_name;
 }
+
 void Contact::set_last_name(std::string last_name)
 {
     if (last_name.length() == 0)
