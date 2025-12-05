@@ -4,11 +4,11 @@ int	main()
 {
 	Zombie	*horde;
 	int	N = 5;
-	horde = zombieHorde(N, "horde");
+	horde = zombieHorde(N, "Horde");
 	for (int i = 0; i < N; i++)
 		horde[i].announce();
-	std::cout << "\nNow we rename horde pointer to 'Jorge'\n\n";
-	horde->set_name("jorge");
+	std::cout << "\nNow we rename Horde pointer to 'Jorge'\n\n";
+	horde->set_name("Jorge");
 	for (int i = 0; i < N; i++)
 		horde[i].announce();
 	//horde->announce();

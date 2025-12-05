@@ -2,15 +2,14 @@
  #define ZOMBIE_HPP
 
 #include <iostream>
-#include <stdlib.h>//do i neew this i think not
 #include <string>
 
 class	Zombie
 {
 	private:
-		std::string	name;
+		std::string	_name;
 	public:
-		void	announce(void); //should be a member function?
+		void	announce(void);
 		Zombie();
 		Zombie(const std::string name);
 		~Zombie();	

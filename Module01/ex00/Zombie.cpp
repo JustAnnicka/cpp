@@ -1,16 +1,16 @@
 
 #include "Zombie.hpp"
 
-Zombie::Zombie(){name = "random";}
+Zombie::Zombie(){_name = "Random";}
+
 Zombie::~Zombie()
 {
-	std::cout << "destroyed " << name << std::endl;
-	//should I add the destroy function here?
+	std::cout << "destroyed " << _name << std::endl;
 }
 
-Zombie::Zombie(const std::string name) : name(name){}
+Zombie::Zombie(const std::string name) : _name(name){}
 
 void	Zombie::announce(void)
 {
-	std::cout << name << ": BraiiiiiiinnnzzzZ.." << std::endl;
+	std::cout << _name << ": BraiiiiiiinnnzzzZ.." << std::endl;
 }

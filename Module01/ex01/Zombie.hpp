@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:29:54 by aehrl             #+#    #+#             */
-/*   Updated: 2025/08/21 17:43:37 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/12/05 17:50:31 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 class	Zombie
 {
 	private:
-		std::string	name;
+		std::string	_name;
 	public:
 		void	announce(void); //should be a member function?
 		void	set_name(std::string name);
