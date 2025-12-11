@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:29:58 by aehrl             #+#    #+#             */
-/*   Updated: 2025/12/05 17:51:17 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/12/10 20:08:46 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ Zombie::Zombie(){_name = "random";}
 Zombie::~Zombie()
 {
 	std::cout << "destroyed " << _name << std::endl;
-	//should I add the destroy function here?
 }
 
 Zombie::Zombie(const std::string name) : _name(name){}

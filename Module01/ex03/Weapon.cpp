@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 18:04:03 by aehrl             #+#    #+#             */
-/*   Updated: 2025/12/05 18:04:04 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/12/10 20:35:53 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 Weapon::Weapon()
 {
 	_type = "default";
+	std::cout << "Default constructor called" << std::endl;
+
 }
 Weapon::Weapon(const std::string &type):_type(type){}
 
 Weapon::~Weapon()
 {
-	//std::cout << this->_type<< " Destroyed" << std::endl;
+	//std::cout << "Weapon Destructor called" << std::endl;
 }
 std::string Weapon::getType()
 {

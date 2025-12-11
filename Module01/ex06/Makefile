@@ -1,5 +1,5 @@
 NAME = harlFilter
-CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CC = c++ -Wall -Wextra -Werror -std=c++98 
 
 SRC := main.cpp Harl.cpp
 OBJ := $(SRC:.cpp=.o)

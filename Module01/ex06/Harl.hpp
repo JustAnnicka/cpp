@@ -11,6 +11,7 @@ class Harl
 		void	info(void);
 		void	warning(void);
 		void	error(void);
+		int 	getLevelIndex(const std::string &level);
 
 	public:
 		Harl();

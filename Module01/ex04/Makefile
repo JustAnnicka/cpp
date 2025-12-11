@@ -1,5 +1,5 @@
 NAME = SedIsForLosers
-CC = c++ -Wall -Wextra -Werror -std=c++98 -fsanitize
+CC = c++ -Wall -Wextra -Werror -std=c++98 
 
 SRC := main.cpp
 OBJ := $(SRC:.cpp=.o)
