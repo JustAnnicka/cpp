@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:12:09 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/25 16:36:14 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/25 18:09:07 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Bureaucrat::Bureaucrat() : _name("Default Bureaucrat"){
     _grade = 75;
 }
 
-Bureaucrat::Bureaucrat(std::string name, int grade ) : _name(name) { //should i take pointer to string?
+Bureaucrat::Bureaucrat(std::string name, int grade ) : _name(name) {
     std::cout << "Bureaucrat assignment constructor called" << std::endl;
     try {
         setGrade(grade);
@@ -28,8 +28,6 @@ Bureaucrat::Bureaucrat(std::string name, int grade ) : _name(name) { //should i 
         std::cout << "default grade 75 assigned" << std::endl;
         _grade = 75;
     } 
- //   catch (...) // this is a general catch that can handle any type of exception 
-
 }
 
 
@@ -72,6 +70,18 @@ std::string Bureaucrat::getName(void) const{
 }
 int Bureaucrat::getGrade(void) const{
     return (this->_grade);
+}
+
+void Bureaucrat::signForm(Form &ref){
+    try{
+        ref.beSigned(*this);
+        std::cout << this->getName() << " signed " << ref.getName() << std::endl;
+    }
+    catch (const Form::GradeTooLowException &e)
+    {
+        std::cout << this->getName() << " couldn’t sign " << ref.getName()
+                  << " because " << e.what();
+    }
 }
 
 
