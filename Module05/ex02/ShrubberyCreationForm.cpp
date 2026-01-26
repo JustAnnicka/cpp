@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:12:09 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/25 21:55:55 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/26 16:25:13 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,57 +40,64 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {
 
 void ShrubberyCreationForm::execute_derived() const{
     std::string fname = _target + "_shrubbery";
-	std::fstream file(fname.c_str());
+	std::ofstream file(fname.c_str());
+    if (file.is_open())
+    {
+       file  << "The Worm's Turn" << std::endl;
+       file  << "             _{'\' _{'\'{'\'/}/}/}__" << std::endl;
+       file  << "            {/{/'\'}{/{/'\'}('\'}{/'\'} _" << std::endl;
+       file  << "           {/{/'\'}{/{/'\'}(_)'\'}{/{/'\'}  _" << std::endl;
+       file  << "       {'\'{/('\'}'\'}{/{/'\'}'\'}{/){/'\'}'\'} /'\'}" << std::endl;
+       file  << "       {/{/(_)/}{'\'{/)'\'}{'\'(_){/}/}/}/}" << std::endl;
+       file  << "      _{'\'{/{/{'\'{/{/(_)/}/}/}{'\'(/}/}/}" << std::endl;
+       file  << "     {/{/{'\'{'\'{'\'(/}{'\'{'\'/}/}{'\'}(_){'\'/}'\'}" << std::endl;
+       file  << "     _{'\'{/{'\'{/(_)'\'}/}{/{/{/'\'}'\'})'\'}{/'\'}" << std::endl;
+       file  << "     {/{/{'\'{'\'(/}{/{'\'{'\'{'\'/})/}{'\'(_)/}/}'\'}" << std::endl;
+       file  << "     {'\'{'\'/}(_){'\'{'\'{'\'/}/}(_){'\'/}{'\'/}/})/}" << std::endl;
+       file  << "      {/{'\'{'\'/}{/{'\'{'\'{'\'/}/}{'\'{'\'/}/}'\'}(_)" << std::endl;
+       file  << "     {/{'\'{'\'/}{/){'\'{'\'{'\'/}/}{'\'{'\'(/}/}'\'}/}" << std::endl;
+       file  << "      {/{'\'{'\'/}(_){'\'{'\'{'\'(/}/}{'\'(_)/}/}'\'}" << std::endl;
+       file  << "        {/({/{'\'{/{'\'{'\'/}(_){'\'/}/}'\'}/}('\'}" << std::endl;
+       file  << "          (_){/{'\'/}{'\'{'\'/}/}{'\'{'\')/}/}(_)" << std::endl;
+       file  << "           {/{/{'\'{'\'/}{/{'\'{'\'{'\'(_)/}" << std::endl;
+       file  << "            {/{'\'{'\'{'\'/}/}{'\'{'\''\'}/}" << std::endl;
+       file  << "             {){/ {'\'/}{'\'/} '\'}'\'}" << std::endl;
+       file  << "             (_)  '\'.-'.-/" << std::endl;
+       file  << "         __...--- |'-.-'| --...__" << std::endl;
+       file  << "  _...--'   .-'   |'-.-'|  ' -.  ''--..__" << std::endl;
+       file  << "-'    ' .  . '    |.'-._| '  . .  '   jro" << std::endl;
+       file  << ".  '-  '    .--'  | '-.'|    .  '  . '" << std::endl;
+       file  << "         ' ..     |'-_.-|" << std::endl;
+       file  << " .  '  .       _.-|-._ -|-._  .  '  ." << std::endl;
+       file  << "             .'   |'- .-|   '." << std::endl;
+       file  << " ..-'   ' .  '.   `-._.-´   .'  '  - ." << std::endl;
+       file  << "  .-' '        '-._______.-'     '  ." << std::endl;
+       file  << "       .      ~," << std::endl;
+       file  << " .         .   |'\'   .    ' '-." << std::endl;
+       file  << "   ___________/  '\'____________" << std::endl;
+       file  << "  /  Why is it, when you want '\' " << std::endl;
+       file  << " |  something, it is so damn   | " << std::endl;
+       file  << " |    much work to get it?     |" << std::endl;
+       file  << "  '\'___________________________/" << std::endl;
+       file  << "------------------------------------------------" << std::endl;
+       file  << "This ASCII pic can be found at https://asciiart.website/art/3815" << std::endl;
+       file  << "------------------------------------------------" << std::endl;
+       file  << "ex02" << std::endl;
+       file  << "|__Bureaucrat.cpp" << std::endl;
+       file  << "|__Bureaucrat.hpp" << std::endl;
+       file  << "|__Makefile" << std::endl;
+       file  << "|__main.cpp" << std::endl;
+       file  << "|__AForm.cpp" << std::endl;
+       file  << "|__AForm.hpp" << std::endl;
+       file  << "|__PresidentialPardonForm.cpp" << std::endl;
+       file  << "|__PresidentialPardonForm.hpp" << std::endl;
+       file  << "|__RobotomyRequestForm.cpp" << std::endl;
+       file  << "|__RobotomyRequestForm.hpp" << std::endl;
+       file  << "|__ShrubberyCreationForm.cpp" << std::endl;
+       file  << "|__ShrubberyCreationForm.hpp" << std::endl;     
+       file.close();
+       
+    }
 	if (file.fail())
 		std::cout << "ferror" << std::endl;
-	file << "T\nA\n";
 }
-
-
-
-/* 
-
-The Worm's Turn
-             _{\ _{\{\/}/}/}__
-            {/{/\}{/{/\}(\}{/\} _
-           {/{/\}{/{/\}(_)\}{/{/\}  _
-        {\{/(\}\}{/{/\}\}{/){/\}\} /\}
-       {/{/(_)/}{\{/)\}{\(_){/}/}/}/}
-      _{\{/{/{\{/{/(_)/}/}/}{\(/}/}/}
-     {/{/{\{\{\(/}{\{\/}/}{\}(_){\/}\}
-     _{\{/{\{/(_)\}/}{/{/{/\}\})\}{/\}
-    {/{/{\{\(/}{/{\{\{\/})/}{\(_)/}/}\}
-     {\{\/}(_){\{\{\/}/}(_){\/}{\/}/})/}
-      {/{\{\/}{/{\{\{\/}/}{\{\/}/}\}(_)
-     {/{\{\/}{/){\{\{\/}/}{\{\(/}/}\}/}
-      {/{\{\/}(_){\{\{\(/}/}{\(_)/}/}\}
-        {/({/{\{/{\{\/}(_){\/}/}\}/}(\}
-         (_){/{\/}{\{\/}/}{\{\)/}/}(_)
-           {/{/{\{\/}{/{\{\{\(_)/}
-            {/{\{\{\/}/}{\{\\}/}
-             {){/ {\/}{\/} \}\}
-             (_)  \.-'.-/
-         __...--- |'-.-'| --...__
-  _...--"   .-'   |'-.-'|  ' -.  ""--..__
--"    ' .  . '    |.'-._| '  . .  '   jro
-.  '-  '    .--'  | '-.'|    .  '  . '
-         ' ..     |'-_.-|
- .  '  .       _.-|-._ -|-._  .  '  .
-             .'   |'- .-|   '.
- ..-'   ' .  '.   `-._.-´   .'  '  - .
-  .-' '        '-._______.-'     '  .
-       .      ~,
-   .       .   |\   .    ' '-.
-   ___________/  \____________
-  /  Why is it, when you want \
- |  something, it is so damn   |
- |    much work to get it?     |
-  \___________________________/
-------------------------------------------------
-Thank you for visiting https://asciiart.website/
-This ASCII pic can be found at
-https://asciiart.website/art/3815
-
-
-
-*/
