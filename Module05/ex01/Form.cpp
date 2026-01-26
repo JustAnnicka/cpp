@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:12:09 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/25 18:08:23 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/26 15:23:23 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Form::Form() : _name("Default form name"), _gradeSign(75), _gradeExec(75){
 }
 
 //Form::Form(const std::string name, int gs, int ge) : _name(name), _gradeSign(gs < 1 ? 1 : (gs > 150 ? 150 : gs )), _gradeExec(gs < 1 ? 1 : (ge > 150 ? 150 : ge )){  
-Form::Form(const std::string name, int gs, int ge) : _name(name), _gradeSign(gs), _gradeExec(gs){  
+Form::Form(const std::string name, int gs, int ge) : _name(name), _gradeSign(gs), _gradeExec(ge){  
     std::cout << "Form assignment constructor called" << std::endl;
     _signed = false;
     try{
@@ -73,7 +73,7 @@ Form::~Form() {
 
 std::ostream& operator<<(std::ostream &os, const Form &ptr){
 	os << ptr.getName() << ", Form grade to sign: " << ptr.getGradeSign();
-    os << " , Form grade to excecute " << ptr.getGradeExec() << ", signed = " << (ptr.getSigned() ? "True" : "False") <<std::endl;
+    os << " , Form grade to execute " << ptr.getGradeExec() << ", signed = " << (ptr.getSigned() ? "True" : "False") <<std::endl;
 	return (os);
 }
 
