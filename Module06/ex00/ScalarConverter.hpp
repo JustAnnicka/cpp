@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:11:47 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/27 15:31:53 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/30 16:04:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
  #define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <sstream>
+#include <limits>
 //should not be able to instantiate
 class ScalarConverter {
     public:
@@ -28,6 +30,7 @@ class ScalarConverter {
     // Add private members here
 };
 
+//ADD STATIC FUNCTIONS HERE
 
 #endif // SCALARCONVERTER_HPP
 
