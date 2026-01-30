@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:12:09 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/30 16:49:57 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/30 17:48:12 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,6 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other) {
 
 ScalarConverter::~ScalarConverter() {
     std::cout << "ScalarConverter destructor called" << std::endl;
-}
-
-int check_decimal_float(std::string input)
-{
-    int check = 0;
-    std::string::size_type i = 0;
-    if (input[i] == '-')
-        i++;
-    while(i < input.length() - 1)
-    {
-        if (input[i] == '.')
-        {
-            check++;
-            if (check != 1)
-                return (0);
-        }
-        else if (!std::isdigit(input[i]))
-            return (0);
-        i++;
-    }
-    return (1);
 }
 
 int check_number(std::string input, char type)
@@ -105,7 +84,6 @@ int psuedo_literal(std::string input)
         std::cout << "double: nan" << std::endl;
         return (1);
     }
-//    std::cout << "Is not float psuedo" << std::endl;
     return (0);
 }
 
@@ -130,10 +108,10 @@ int parse(std::string input){
         return (1); // is a char
     i = 0;
     if (dot == 0 && check_number(input, 'i'))
-        return (2);
+        return (2); //is int
      if (psuedo_literal(input))
         return (5);
-    else if (f >= 1 && (input[input.length() - 1] == 'f')) // can i do + 1 on string to pass from 1st position on minus?
+    else if (f >= 1 && (input[input.length() - 1] == 'f'))
     {
         if (!check_number(input, 'f'))
             return (0);
@@ -147,7 +125,6 @@ int parse(std::string input){
     }
 
     return (0);
-        //iscntrl ??
 }
 
 void convert_int(std::string literal, int level){
@@ -158,13 +135,24 @@ void convert_int(std::string literal, int level){
     {
         std::stringstream ss(literal);
         ss >> n;
-        //check if it goes beyong MAX & MIN
-        char c;
-        c = static_cast<char>(n);
-        if (!std::isprint(n))
-            std::cout << "char: Non displayable" << std::endl;
-        else
-            std::cout << "char: '" << c << "'" << std::endl;
+        if (ss.fail()){
+            std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            return ;
+        }
+       //CHAR_MIN gave me -128
+        if (n < 0 || n > CHAR_MAX){
+            std::cout << "char: impossible" << std::endl;
+        }
+        else{
+            char c;
+            c = static_cast<char>(n);
+            if (!std::isprint(n))
+                std::cout << "char: Non displayable" << std::endl;
+            else
+              std::cout << "char: '" << c << "'" << std::endl;
+        }
+        
     }
     std::cout << "int: " <<  n << std::endl;
 }
@@ -175,12 +163,15 @@ void convert_float(std::string literal, int level){
        n = static_cast<float>(literal[0]);
     else
     {  
-        convert_int(literal, level);
+        if (level != 2)
+            convert_int(literal, level);
         std::stringstream ss(literal);
         ss >> n;
-        //check if it goes beyong MAX & MIN
+        if (ss.fail()){
+            std::cout << "float: impossible" << std::endl;
+            return ;
+        }
     }
-    //check what precision we need for evaluation!!
     std::cout << "float: " << std::setprecision(1) << std::fixed << n << "f" << std::endl;
 }
 
@@ -194,15 +185,29 @@ void convert_double(std::string literal, int level){
             convert_float(literal, level);
         std::stringstream ss(literal);
         ss >> n;
-        //check if it goes beyong MAX & MIN
+        if (ss.fail()){
+            std::cout << "double: impossible" << std::endl;
+            return ;
+        }
+
     }
-    //check what precision we need for evaluation!!
     std::cout << "double: " << std::setprecision(1) << std::fixed << n << std::endl;
 }
 
 void ScalarConverter::convert(std::string literal){
-    int level = parse(literal);
+    
+   /*
+    std::cout << "double MIN: " << std::numeric_limits<double>::min() <<std::endl;
+    std::cout << "float MIN: " << std::numeric_limits<double>::min() <<std::endl;
+     */
 
+    if (literal.empty())
+    {
+        std::cout << "Error: empty string" <<std::endl;
+        return ;
+    }
+
+    int level = parse(literal); // maybe check for double and float style writing of "2.22507e-308"
     switch(level)
     {
         case 0:
@@ -215,9 +220,9 @@ void ScalarConverter::convert(std::string literal){
         case 2: 
             convert_int(literal, level);
         case 3:
-            convert_float(literal, level);
+            convert_float(literal, level); 
         case 4:
-            convert_double(literal, level);
+            convert_double(literal, level); 
         default:;
     }
 }

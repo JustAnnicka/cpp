@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:11:47 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/30 16:37:41 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/30 17:30:15 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <sstream>
 #include <iomanip>
 #include <limits>
+#include <climits>
+
 //should not be able to instantiate
 class ScalarConverter {
     public:
