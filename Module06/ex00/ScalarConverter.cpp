@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 15:12:09 by aehrl             #+#    #+#             */
-/*   Updated: 2026/01/30 16:03:54 by aehrl            ###   ########.fr       */
+/*   Updated: 2026/01/30 16:49:57 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int check_number(std::string input, char type)
 
 int psuedo_literal(std::string input)
 {  
+    //does there have to be a special handling of float for nanf??
     if (input.compare("-inff") == 0 || input.compare("-inf") == 0)
     {
         std::cout << "char: impossible" << std::endl;
@@ -150,12 +151,14 @@ int parse(std::string input){
 }
 
 void convert_int(std::string literal, int level){
-    std::stringstream ss(literal);
     int n;
-    ss >> n;
-    //check if it goes beyong MAX & MIN
-    if (level == 2)
+    if (level == 1)
+       n = static_cast<int>(literal[0]);
+    else
     {
+        std::stringstream ss(literal);
+        ss >> n;
+        //check if it goes beyong MAX & MIN
         char c;
         c = static_cast<char>(n);
         if (!std::isprint(n))
@@ -164,7 +167,37 @@ void convert_int(std::string literal, int level){
             std::cout << "char: '" << c << "'" << std::endl;
     }
     std::cout << "int: " <<  n << std::endl;
-    
+}
+
+void convert_float(std::string literal, int level){
+      float n;
+    if (level == 1)
+       n = static_cast<float>(literal[0]);
+    else
+    {  
+        convert_int(literal, level);
+        std::stringstream ss(literal);
+        ss >> n;
+        //check if it goes beyong MAX & MIN
+    }
+    //check what precision we need for evaluation!!
+    std::cout << "float: " << std::setprecision(1) << std::fixed << n << "f" << std::endl;
+}
+
+void convert_double(std::string literal, int level){
+      double n;
+    if (level == 1)
+       n = static_cast<double>(literal[0]);
+    else
+    {
+        if (level == 4)
+            convert_float(literal, level);
+        std::stringstream ss(literal);
+        ss >> n;
+        //check if it goes beyong MAX & MIN
+    }
+    //check what precision we need for evaluation!!
+    std::cout << "double: " << std::setprecision(1) << std::fixed << n << std::endl;
 }
 
 void ScalarConverter::convert(std::string literal){
@@ -179,35 +212,12 @@ void ScalarConverter::convert(std::string literal){
         }
         case 1:
             std::cout << "char: '" << literal << "'" << std::endl;
-        case 2:
-        {  
-            std::stringstream ss(literal);
-
-
-            //this has to be handled in the int function
-            //if level == 2;
-            //    std::cout << "char: Non displayable" << std::endl;
+        case 2: 
             convert_int(literal, level);
-           // int i = static_cast<int>(literal); 
-            //std::cout << "int: " <<  i << std::endl;
-        }
         case 3:
-        {
-            //this has to be handled in the float function
-            //if level == 3;
-           //     std::cout << "char: Non impossible\nint: impossible" << std::endl; 
-           std::cout << "float: " << std::endl;
-        }
+            convert_float(literal, level);
         case 4:
-        {
-            //does there have to be a special handling of float for nanf??
-            std::cout << "float: " << std::endl;
-        }
-        default:
-        {
-            //have a case 5 (default do nothing)
-        }
+            convert_double(literal, level);
+        default:;
     }
-    //check for what happens with ñ or other extended ASCII letters <- we might be able to ignore this
-    //make cases -> if not char is not displayable / impossible print those messages
 }
