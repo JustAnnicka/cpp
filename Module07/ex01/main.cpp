@@ -17,6 +17,10 @@ void test_char_function(char &ref){
     std::cout << ref;
 }
 
+void test_stringconst_function(const std::string &ref){
+    std::cout << ref;
+}
+
 int main( void ) {
 int a[] = {1, 2, 3, 4};
 char b[] = {'c', 'b', 'd', 'e'};
@@ -24,7 +28,9 @@ char c[4] ="BYE";
 //char d[3];
 int e;
 char f;
-//std::string c[2] = {"Hello", "Bye"};
+const int x = -20;
+std::string str[2] = {"Hello", "Bye"};
+const std::string str2[3] = {"Const: ", "Hello", "Bye"};
 
 ::iter(a, sizeof(a) / sizeof(a[0]), test_int_function);
 std::cout << std::endl;
@@ -33,6 +39,11 @@ std::cout << std::endl;
 ::iter(b, sizeof(b) / sizeof(b[0]), test_charconst_function);
 std::cout << std::endl;
 ::iter(c, sizeof(c) / sizeof(c[0]), test_charconst_function);
+std::cout << std::endl;
+::iter(str, 2, test_stringconst_function);
+std::cout << std::endl;
+::iter(str2, 3, test_stringconst_function);
+
 std::cout << std::endl;
 //FOR SOME REASON IF I USE THE ADDRESS IT COUNTS AS INITIALSED 
 std::cout << &e << std::endl;
@@ -52,7 +63,10 @@ std::cout << std::endl;
 //giving bigger number than array size seems fine for char array 
 ::iter(c, 10, test_charconst_function);
 std::cout << std::endl;
+//this should not be allowed (why does the function accept it on compile??)
+::iter(c, x, test_charconst_function);
+std::cout << std::endl;
 
-//::iter(c, c.length(), test_charconst_function);
+//::iter(str, str.length(), test_charconst_function);
 
 }
