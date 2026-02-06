@@ -7,7 +7,7 @@
 template <typename T, typename F> void iter(T &ptr, const size_t len, F function){
     if (!ptr)
         return ;
-    if (len > (int)sizeof(ptr) / sizeof(ptr[0]))
+    if (len > sizeof(ptr) / sizeof(ptr[0]))
     {
         std::cout << "Error\nLen does not match array size" << std::endl;
         return ;
