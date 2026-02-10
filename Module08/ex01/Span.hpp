@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <vector>
 #include <algorithm>
+#include <climits>
 
 class Span
 {
