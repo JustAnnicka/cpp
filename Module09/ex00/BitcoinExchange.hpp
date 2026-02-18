@@ -58,7 +58,6 @@ class BitcoinExchange{
         void isDateValid(std::string date);
         float isValueValid(std::string value);
         float isDBValueValid(std::string value);
-        float getExchangeRate(std::string date);
 };
 
 #endif

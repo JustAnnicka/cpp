@@ -19,7 +19,7 @@ int main (int argc, char  *argv[])
 					exchange.findBitcoinValue(line);
 
 				//check if first line == "date | value" in this case skip check
-				std::cout << line << std::endl;
+			//	std::cout << line << std::endl;
 				//do the exchange task
 				//find the value by lower bound
 				//check if the date is valid (eg numbers over 31 are forbidden)
