@@ -25,24 +25,16 @@ class RPN{
             public:
                 virtual const char * what() const throw();
         };
-       /*  class DigitBelowZero : public std::exception{
-            public:
-                virtual const char * what() const throw();
-        };
-        class DoubleDigits : public std::exception{
-            public:
-                virtual const char * what() const throw();
-        }; */
         class WrongExpression : public std::exception{
             public:
                 virtual const char * what() const throw();
         };
-      /*   class NoExpression : std::exception{
+        class DivideByZero : public std::exception{
             public:
                 virtual const char * what() const throw();
-        }; */
+        };
     private:
-        std::stack<int> _stack;
+        std::stack<long> _stack;
 };
 
 #endif

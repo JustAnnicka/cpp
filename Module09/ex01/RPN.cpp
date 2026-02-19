@@ -17,6 +17,8 @@ RPN::RPN(const RPN & other){
         this->_stack = other._stack;
     }
 }
+//check the copy of this as we have to go to the end and then reverse to push
+    //or rather push into a temp from top then pop then use this new reverse stack to push into original and copy
 RPN & RPN::operator=(const RPN & other)
 {
     if (this != &other)
@@ -36,52 +38,38 @@ RPN::~RPN(){
 void RPN::process_expression(std::string arg){
 
     int check = 0;
-    int x;
+    long x;
+
     for(size_t i = 0; i < arg.size(); i++){
-        std::cout << "Enter : " << arg[i] << std::endl;
+        int o = is_operator(arg[i]);
         if (arg[i] == ' ')
             check = 0;
         else if (isdigit(arg[i]))
         {
-            _stack.push(static_cast<int>(arg[i]));
+            _stack.push(static_cast<long>(arg[i] - 48));
+            if (_stack.top() < 0)
+                throw(DigitOutOfBounds()); //dont need this covered by wrong expression
             check++;
+            if (check > 1)
+                throw(DigitOutOfBounds());
         }
-        else if (int o = is_operator(arg[i]) != 0)
+        else if (o != 0)
         {
             if (_stack.size() < 2)  
                 throw(WrongExpression());
-            std::cout << "Enter " << std::endl;
             x = _stack.top();
             _stack.pop();
-            x = do_operation(x, _stack.top(), 0);
+            x = do_operation(_stack.top(), x, o);
             _stack.pop();
             _stack.push(x);
             check++;
         }
-        else if (check > 1)
+        if (check > 1)
             throw(WrongExpression());
     }
-    /* for(std::string::iterator it = arg.begin(); it != arg.end(); ++it){
-        std::cout << "Enter : " << *it << std::endl;
-        if (*it == ' ')
-            check = 0;
-        else if (isdigit(*it))
-        {
-            _stack.push(static_cast<int>(*it));
-            check++;
-        }
-        else if (int o = is_operator(*it) != 0)
-        {
-            x = _stack.top();
-            _stack.pop();
-            x = do_operation(x, _stack.top(), 0);
-            _stack.pop();
-            _stack.push(x);
-            check++;
-        }
-        else if (check > 1)
-            throw(WrongExpression());
-    } */
+    if (_stack.size() != 1)
+        throw(WrongExpression());
+    std::cout << _stack.top() << std::endl;
 }
 
 int RPN::is_operator(char c){
@@ -100,14 +88,36 @@ int RPN::is_operator(char c){
 int RPN::do_operation(int first, int second, int oper){
     switch (oper)
     {
-        case 1: //can do enums here
+        case 1:
+        {
+            std::cout << first <<  " + " << second  << " = " << first + second << std::endl; 
+            return (first + second);
+        }
+        case 2:
+        {
+            std::cout << first <<  " - " << second  << " = " << first - second << std::endl; 
+            return (first - second);
+        }
+        case 3:
+        {
+            if (second == 0)
+                throw(DivideByZero());
+            std::cout << first <<  " / " << second  << " = " << first / second << std::endl; 
+            return (first / second);
+        }
+        case 4:
+        {
+            std::cout << first <<  " * " << second  << " = " << first * second << std::endl; 
+            return (first * second);
+        }
+/*         case 1: //can do enums here
             return (first + second);
         case 2:
             return (first - second);
         case 3:
             return (first / second);
         case 4:
-            return (first * second);
+            return (first * second); */
     }
    return (0);
 }
@@ -121,4 +131,6 @@ const char * RPN::WrongExpression::what() const throw(){
     return ("Error: Wrong expression");
 }
 
-//if we find an operator we pop last two values and apply operator ->followed by pushing this value
+const char * RPN::DivideByZero::what() const throw(){
+    return ("Error: Divide by Zero not permited");
+}
