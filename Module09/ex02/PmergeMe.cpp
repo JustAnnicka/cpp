@@ -49,22 +49,13 @@ void PmergeMe::dequeSort(){
 	bool 		odd = false;
 	//create a set of half the size of the (if it is not even then one extra element)
 	//size_t set_size = _deque.size() / 2;
-	if (_deque.size() % 2 != 0){
-		//set_size++;
+	if (_deque.size() % 2 != 0)
 		odd = true;
-	}
 	// STEP ONE CREATE A SET of TWO and store in a pair> (THIS COMBINES PAIR AND ORDER (reverse order))
 	//std::set<std::pair<set<int>, set<int>> myset;
 	std::set<unsigned int> pairing;
-	//for (size_t i = 1; i < _deque.size(); i+= 2){
 	int count = 0;
-	//for(std::deque<unsigned int>::iterator iter = _deque.begin(); iter != _deque.end(); ++iter){
 	for (size_t i = 0; i < _deque.size(); i++){
-	//++iter;
-	 /* 	std::deque<unsigned int>::iterator t = iter;
-		t++;
-		if (t == _deque.end())
-			break ; */
 		pairing.insert(_deque[i]);
 		count++;
 		if (count == 2)
@@ -73,32 +64,53 @@ void PmergeMe::dequeSort(){
 			pairing.clear();
 			count = 0;
 		}
-		/* pairing.insert(iter, t);
-		pairing.insert(&_deque[i - 1], &_deque[i]);
-		holder.push_back(pairing);
-		pairing.clear(); */
-		//std::pair<int, int> p = std::make_pair()
-		//myset = 
-		//std::pair<int, int> p = std::make_pair(_deque[i - 1], _deque[i]);
 	}
 	if (odd == true){
 		pairing.insert(_deque.back());
 		holder.push_back(pairing);
 	}
-
+	//maybe i should make a pair or the sets that i push_back rather than push the sets 
 	for (size_t j = 0; j < holder.size(); j++){
-		//std::set<unsigned int>::iterator it = holder[j].begin();
 		for (std::set<unsigned int>::iterator it = holder[j].begin(); it != holder[j].end(); ++it)
     		std::cout << *it << " ";
 		std::cout << ", ";
 	}
-	/* for (std::deque<std::set<int> >::iterator h_it = _deque.begin(); h_it != _deque.end(); ++h_it){
-		for (std::set<int>::iterator it = *h_it->begin(); it != *h_it->end(); ++it)
-    		std::cout << *it << " ";
-		std::cout << ", ";
-	} */
 	std::cout << std::endl;
 }
+
+void PmergeMe::MakePairs(std::deque<std::set<unsigned int> > container){
+	std::deque<std::pair<std::set<unsigned int>, std::set<unsigned int> > >holder;
+	//std::deque<std::set<std::pair<std::set<unsigned int> >> holder;
+	//std::set<std::pair<std::set<unsigned int> >> set;
+	std::pair<std::set<unsigned int>, std::set<unsigned int> > pairs;
+	size_t size = container.size();
+	bool 		odd = false;
+	if (size % 2 != 0)
+		odd = true;
+
+	for (size_t i = 1; i < size; i++){
+		if(*container[i-1].rbegin() < *container[i].rbegin())
+			pairs = std::make_pair(container[i - 1], container[i]);
+		else
+			pairs = std::make_pair(container[i], container[i - 1]);
+		holder.push_back(pairs);
+		size_t x = i + 1;
+		i = x;
+	}
+	for (size_t j = 0; j < holder.size(); j++){
+		std::cout << holder[j].first << " " << holder[j].second << ", ";
+	}
+	std::cout << std::endl;
+/* 	if (odd == true){
+		pairing.insert(container.back());
+		holder.push_back(pairing);
+	} */
+}
+
+//CREATE PAIR TEMPLATE FUNCTION THAT RETURNS DEQUE ENTRY
+
+
+
 /* void PmergeMe::dequeSort(){
 	std::deque<unsigned int>	holder;
 	bool 		odd = false;
