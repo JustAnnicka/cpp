@@ -47,18 +47,16 @@ void PmergeMe::johnsonFord(int argc, char *argv[]){
 }
 
 std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
-	std::deque<t_pairs> holder; //might not need holder
+	std::deque<t_pairs> holder; 
 	size_t size = aux.size() / 2;
 	static int id;
 	id++;
 	for (size_t i = 0; i < size; i++){
 		unsigned int x = aux[i].max;
-		//aux.pop_front();
 		t_pairs p(x, aux[i + 1].max);
 		p.id = id;
 		holder.push_back(p);
 		_dsort.push_back(p);
-		//i = i + 1;
 		aux.pop_front();
 	}
 	for(size_t z = 0; z < size; z++)
@@ -74,6 +72,7 @@ std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
 		for (size_t z = 0; z < aux.size(); z++){
 			std::cout << aux[0].max << ", ";
 		}
+		holder.push_back(aux[0]);
 	}
 	std::cout << std::endl;
 	//END OF PRINT
@@ -84,26 +83,167 @@ std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
 			if (find(max_chain.begin(), max_chain.end(), holder[z].min) == max_chain.end())
 				max_chain.push_front(holder[z].min);
 		}
-		if (!aux.empty())
-			max_chain.push_back(aux[0].max); //this should be inserted at upper bound
 	}
 	else{
 		max_chain.push_front(holder[0].max); //this could be an insert function
 		max_chain.push_front(holder[0].min);
-		if (!aux.empty())
-		{
-			max_chain.push_back(aux[0].max);
-			max_chain.push_back(aux[0].min);
-
-		}
 	}
 	return(max_chain);
 
 }
+/* 
+std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
+	std::deque<t_pairs> holder; 
+	size_t size = aux.size() / 2;
+	static int id;
+	id++;
+	for (size_t i = 0; i < size; i++){
+		unsigned int x = aux[i].max;
+		t_pairs p(x, aux[i + 1].max);
+		p.id = id;
+		holder.push_back(p);
+		_dsort.push_back(p);
+		aux.pop_front();
+	}
+	for(size_t z = 0; z < size; z++)
+		aux.pop_front();
+	//JUST FOR PRINTING PURPOSES
+	std::cout << "Pairing #" << id << std::endl;
+	for (size_t j = 0; j < holder.size(); j++){
+		std::cout << holder[j].min << " " << holder[j].max << ", ";
+	}
+	if (!aux.empty())
+	{
+		std::cout << "r => ";
+		for (size_t z = 0; z < aux.size(); z++){
+			std::cout << aux[0].max << ", ";
+		}
+		holder.push_back(aux[0]);
+	}
+	std::cout << std::endl;
+	//END OF PRINT
+	std::deque<unsigned int> max_chain;
+	if (holder.size() != 1){
+		max_chain = recursive_pairing(holder);
+		for (int z = (int)holder.size() - 1; z >= 0; z--){
+			if (find(max_chain.begin(), max_chain.end(), holder[z].min) == max_chain.end())
+				max_chain.push_front(holder[z].min);
+		}
+	}
+	else{
+		max_chain.push_front(holder[0].max); //this could be an insert function
+		max_chain.push_front(holder[0].min);
+	}
+	return(max_chain);
 
+}
+ */
 //use the johnsjohnThal number somewhere!!
 
-void PmergeMe::pairing(std::deque<unsigned int> aux){
+std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
+	std::deque<t_pairs> holder;
+	if (aux.size() <= 1){
+		return (aux);
+	}
+	std::deque<unsigned int> max_chain; 
+	static int recur;
+	recur++;
+	size_t size = aux.size() / 2;
+	for (size_t i = 0; i < size; i++){
+		unsigned int x = aux.front();
+		aux.pop_front();	
+		t_pairs p(x, aux.front());
+		p.id = recur;
+		_dsort.push_back(p);
+		holder.push_back(p);
+		aux.pop_front();
+		max_chain.push_back(p.max);
+	}
+	//JUST FOR PRINTING PURPOSES
+	std::cout << "Pairing #"<< recur << std::endl;
+	/* for (size_t j = 0; j < _dsort.size(); j++){
+		std::cout << _dsort[j].min << " " << _dsort[j].max << ", ";
+	} */
+	
+	if (!aux.empty())
+	{
+		if (recur != 1)
+			max_chain.push_back(aux[0]);
+		std::cout << "r => ";
+				for (size_t z = 0; z < aux.size(); z++){
+			std::cout << aux[0] << ", ";
+		}
+	}
+	std::cout << std::endl;
+	for (size_t j = 0; j < max_chain.size(); j++)
+		std::cout << max_chain[j] << ", ";
+	std::cout << std::endl;
+	//max_chain.clear();
+/* 	std::deque<unsigned int> temp = pairing(max_chain); 
+	//max_chain.push_back(p.min);
+	for (size_t z = 0; z < temp.size(); z++){
+		
+		max_chain.push_back(temp[z]);
+	} */
+	//max_chain.clear();
+	std::deque<unsigned int> temp = pairing(max_chain);
+	max_chain.clear();
+	max_chain = temp;
+	if(recur > 1){
+		for (size_t z = 0; z < holder.size(); z++){
+				max_chain.push_front(holder[z].min);
+		}
+	}
+	
+	std::cout << "Returning: ";
+	for (size_t i = 0; i < max_chain.size(); i++)
+		std::cout << max_chain[i] << " ";
+	std::cout << std::endl;
+
+	recur--;
+	//sorted_max_chain.push_back(max_chain[0]);
+	return (max_chain);
+	//END OF PRINT
+
+}
+
+/* std::deque<unsigned int> ford_johnson_max(std::deque<unsigned int> input)
+{
+    // Base case
+    if (input.size() <= 1)
+        return input;
+
+    std::deque<t_pairs> pairs;
+    std::deque<unsigned int> max_values;
+
+    // Build pairs
+    while (input.size() >= 2)
+    {
+        unsigned int a = input.front();
+        input.pop_front();
+
+        unsigned int b = input.front();
+        input.pop_front();
+
+        t_pairs p(a, b);
+        pairs.push_back(p);
+        max_values.push_back(p.max);
+    }
+
+    // Handle leftover
+    if (!input.empty()){
+
+        max_values.push_back(input.front());
+	}
+
+	std::cout << "Returning: ";
+	for (size_t i = 0; i < max_values.size(); i++)
+		std::cout << max_values[i] << " ";
+	std::cout << std::endl;
+    // Recursively sort max values
+    return ford_johnson_max(max_values);
+} */
+/* void PmergeMe::pairing(std::deque<unsigned int> aux){
 	//std::deque<t_pairs> holder;
 	size_t size = aux.size() / 2;
 	for (size_t i = 0; i < size; i++){
@@ -129,7 +269,7 @@ void PmergeMe::pairing(std::deque<unsigned int> aux){
 	std::cout << std::endl;
 	//END OF PRINT
 
-}
+} */
 
 
 void PmergeMe::insertion(){
@@ -167,9 +307,11 @@ void PmergeMe::insertion(){
 
 void PmergeMe::dequeSort(std::deque<unsigned int> aux){
 	std::deque<unsigned int> max_chain; 
-	pairing(aux);
-	max_chain = recursive_pairing(_dsort);
-	for (size_t j = 0; j < max_chain.size(); j++){
+	max_chain = pairing(aux);
+	for (size_t j = 0; j < max_chain.size(); j++)
+		std::cout << max_chain[j] << ", ";
+	//max_chain = recursive_pairing(_dsort);
+	/* for (size_t j = 0; j < max_chain.size(); j++){
 		std::cout << max_chain[j] << ", ";
 	}
 	std::cout << std::endl;
@@ -183,7 +325,7 @@ void PmergeMe::dequeSort(std::deque<unsigned int> aux){
 		}
 		
 	}
-		std::cout << std::endl;
+		std::cout << std::endl; */
 	//insertion();
 }
 
