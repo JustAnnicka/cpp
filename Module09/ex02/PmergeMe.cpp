@@ -47,7 +47,6 @@ void PmergeMe::johnsonFord(int argc, char *argv[]){
 }
 //we could in theory make both of these templates for deque and vector (maybe deque can push front using other function for insertion)
 int PmergeMe::JacobThal(size_t n){
-	//We are skipping 0 & 1 as we they are the value we need
 	int Jn;
 	int x;
 	if (n <= 2)
@@ -58,7 +57,6 @@ int PmergeMe::JacobThal(size_t n){
 }
 
 std::deque<int> PmergeMe::JacobThalSequence(size_t n){
-	//We are skipping 0 & 1 as we they are the value we need
 	int Jn;
 	size_t i = 1;
 	std::deque<int> JTSequence;
@@ -68,13 +66,10 @@ std::deque<int> PmergeMe::JacobThalSequence(size_t n){
 			JTSequence.push_back(Jn);
 		else
 			JTSequence.push_back(n);
-		//std::cout << "Jn: " << Jn << std::endl;
 		if (i >= 3 && JTSequence.size() < n){
 			Jn = *JTSequence.rbegin();
 			JTSequence.push_back(Jn - 1);
 		}
-		//NEED SOMETHING TO BREAK IF THE RETURNED VALUE IS HIGHER THAN WHAT WE HAVE (PUSH N )
-		// IF SIZE IS LOWER THEN DO DIFFERENCE AGAIN?
 	}
 	/* for (size_t j = 0; j <JTSequence.size(); j++)
 			std::cout <<JTSequence[j] << ", "; */
@@ -88,6 +83,7 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 	}
 	std::deque<unsigned int> max_chain; 
 	std::deque<unsigned int> min_chain; 
+	std::deque<unsigned int> sorted_chain; 
 	static int recur;
 	recur++;
 	size_t size = aux.size() / 2;
@@ -124,18 +120,29 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 	for (size_t j = 0; j < min_chain.size(); j++)
 		std::cout << min_chain[j] << ", ";
 	std::cout << std::endl;
-	max_chain = pairing(max_chain);
+	sorted_chain = pairing(max_chain);
 	
 	//APPLY MIN CHECK SORT THROUGH BINARY SEARCH & JACOBTHAL NUMBER
 	
 	if (min_chain.size() == 1)
-		max_chain.push_front(min_chain[0]);
+		sorted_chain.push_front(min_chain[0]);
 	else{
 		std::cout << "JacobThal of " << min_chain.size() << " is: ";
 		std::deque<int> x = JacobThalSequence(min_chain.size());
-		for (size_t j = 0; j <x.size(); j++)
+		for (size_t j = 0; j <x.size(); j++){
+			//std::cout << min_chain[x[j] - 1] << ", ";
 			std::cout <<x[j] << ", ";
-		 std::cout << std::endl;
+		}
+		std::cout << std::endl;
+		for (size_t i = 0; i < x.size(); i++){
+			//position of jacob thal -1 find the max value and then do insert
+			//std::deque<unsigned int>::iterator found = lower_bound(max_chain.begin(), find(max_chain[i] - 1), min_chain[i] - 1);
+			std::deque<unsigned int>::iterator it = lower_bound(sorted_chain.begin(), std::find(sorted_chain.begin(), sorted_chain.end(),max_chain[x[i] - 1]), min_chain[x[i] -1]);
+			std::cout << "min val: " << min_chain[x[i] -1] << " max value: " << max_chain[x[i] - 1]<< " found it = " << *it <<std::endl;
+			
+			sorted_chain.insert(it, min_chain[x[i] - 1]);
+		}
+		
 
 
 		//BINARY SEARCH
@@ -144,12 +151,12 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 	}
 
 	std::cout << "Returning: ";
-	for (size_t i = 0; i < max_chain.size(); i++)
-		std::cout << max_chain[i] << " ";
+	for (size_t i = 0; i < sorted_chain.size(); i++)
+		std::cout << sorted_chain[i] << " ";
 	std::cout << std::endl;
 
 	recur--;
-	return (max_chain);
+	return (sorted_chain);
 
 }
 
