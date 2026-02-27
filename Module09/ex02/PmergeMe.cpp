@@ -45,100 +45,41 @@ void PmergeMe::johnsonFord(int argc, char *argv[]){
 	//std::cout << "Time to process a range of" << argc - 1 << "elements with std::vector: " << std::endl;
 
 }
-
-std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
-	std::deque<t_pairs> holder; 
-	size_t size = aux.size() / 2;
-	static int id;
-	id++;
-	for (size_t i = 0; i < size; i++){
-		unsigned int x = aux[i].max;
-		t_pairs p(x, aux[i + 1].max);
-		p.id = id;
-		holder.push_back(p);
-		_dsort.push_back(p);
-		aux.pop_front();
-	}
-	for(size_t z = 0; z < size; z++)
-		aux.pop_front();
-	//JUST FOR PRINTING PURPOSES
-	std::cout << "Pairing #" << id << std::endl;
-	for (size_t j = 0; j < holder.size(); j++){
-		std::cout << holder[j].min << " " << holder[j].max << ", ";
-	}
-	if (!aux.empty())
-	{
-		std::cout << "r => ";
-		for (size_t z = 0; z < aux.size(); z++){
-			std::cout << aux[0].max << ", ";
-		}
-		holder.push_back(aux[0]);
-	}
-	std::cout << std::endl;
-	//END OF PRINT
-	std::deque<unsigned int> max_chain;
-	if (holder.size() != 1){
-		max_chain = recursive_pairing(holder);
-		for (int z = (int)holder.size() - 1; z >= 0; z--){
-			if (find(max_chain.begin(), max_chain.end(), holder[z].min) == max_chain.end())
-				max_chain.push_front(holder[z].min);
-		}
-	}
-	else{
-		max_chain.push_front(holder[0].max); //this could be an insert function
-		max_chain.push_front(holder[0].min);
-	}
-	return(max_chain);
-
+//we could in theory make both of these templates for deque and vector (maybe deque can push front using other function for insertion)
+int PmergeMe::JacobThal(size_t n){
+	//We are skipping 0 & 1 as we they are the value we need
+	int Jn;
+	int x;
+	if (n <= 2)
+		return (1);
+	Jn = JacobThal(n - 1); 
+	x = Jn + 2 * (JacobThal(n - 2));
+	return (x);
 }
-/* 
-std::deque<unsigned int> PmergeMe::recursive_pairing(std::deque<t_pairs> aux){
-	std::deque<t_pairs> holder; 
-	size_t size = aux.size() / 2;
-	static int id;
-	id++;
-	for (size_t i = 0; i < size; i++){
-		unsigned int x = aux[i].max;
-		t_pairs p(x, aux[i + 1].max);
-		p.id = id;
-		holder.push_back(p);
-		_dsort.push_back(p);
-		aux.pop_front();
-	}
-	for(size_t z = 0; z < size; z++)
-		aux.pop_front();
-	//JUST FOR PRINTING PURPOSES
-	std::cout << "Pairing #" << id << std::endl;
-	for (size_t j = 0; j < holder.size(); j++){
-		std::cout << holder[j].min << " " << holder[j].max << ", ";
-	}
-	if (!aux.empty())
-	{
-		std::cout << "r => ";
-		for (size_t z = 0; z < aux.size(); z++){
-			std::cout << aux[0].max << ", ";
-		}
-		holder.push_back(aux[0]);
-	}
-	std::cout << std::endl;
-	//END OF PRINT
-	std::deque<unsigned int> max_chain;
-	if (holder.size() != 1){
-		max_chain = recursive_pairing(holder);
-		for (int z = (int)holder.size() - 1; z >= 0; z--){
-			if (find(max_chain.begin(), max_chain.end(), holder[z].min) == max_chain.end())
-				max_chain.push_front(holder[z].min);
-		}
-	}
-	else{
-		max_chain.push_front(holder[0].max); //this could be an insert function
-		max_chain.push_front(holder[0].min);
-	}
-	return(max_chain);
 
+std::deque<int> PmergeMe::JacobThalSequence(size_t n){
+	//We are skipping 0 & 1 as we they are the value we need
+	int Jn;
+	size_t i = 1;
+	std::deque<int> JTSequence;
+	while (i++ < n && JTSequence.size() < n){
+		Jn = JacobThal(i);
+		if (Jn <= (int)n) 
+			JTSequence.push_back(Jn);
+		else
+			JTSequence.push_back(n);
+		//std::cout << "Jn: " << Jn << std::endl;
+		if (i >= 3 && JTSequence.size() < n){
+			Jn = *JTSequence.rbegin();
+			JTSequence.push_back(Jn - 1);
+		}
+		//NEED SOMETHING TO BREAK IF THE RETURNED VALUE IS HIGHER THAN WHAT WE HAVE (PUSH N )
+		// IF SIZE IS LOWER THEN DO DIFFERENCE AGAIN?
+	}
+	/* for (size_t j = 0; j <JTSequence.size(); j++)
+			std::cout <<JTSequence[j] << ", "; */
+	return (JTSequence);
 }
- */
-//use the johnsjohnThal number somewhere!!
 
 std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 	std::deque<t_pairs> holder;
@@ -146,6 +87,7 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 		return (aux);
 	}
 	std::deque<unsigned int> max_chain; 
+	std::deque<unsigned int> min_chain; 
 	static int recur;
 	recur++;
 	size_t size = aux.size() / 2;
@@ -154,10 +96,11 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 		aux.pop_front();	
 		t_pairs p(x, aux.front());
 		p.id = recur;
-		_dsort.push_back(p);
+		//_dsort.push_back(p);
 		holder.push_back(p);
 		aux.pop_front();
 		max_chain.push_back(p.max);
+		min_chain.push_back(p.min);
 	}
 	//JUST FOR PRINTING PURPOSES
 	std::cout << "Pairing #"<< recur << std::endl;
@@ -170,7 +113,7 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 		if (recur != 1)
 			max_chain.push_back(aux[0]);
 		std::cout << "r => ";
-				for (size_t z = 0; z < aux.size(); z++){
+		for (size_t z = 0; z < aux.size(); z++){
 			std::cout << aux[0] << ", ";
 		}
 	}
@@ -178,155 +121,46 @@ std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
 	for (size_t j = 0; j < max_chain.size(); j++)
 		std::cout << max_chain[j] << ", ";
 	std::cout << std::endl;
-	//max_chain.clear();
-/* 	std::deque<unsigned int> temp = pairing(max_chain); 
-	//max_chain.push_back(p.min);
-	for (size_t z = 0; z < temp.size(); z++){
-		
-		max_chain.push_back(temp[z]);
-	} */
-	//max_chain.clear();
-	std::deque<unsigned int> temp = pairing(max_chain);
-	max_chain.clear();
-	max_chain = temp;
-	if(recur > 1){
-		for (size_t z = 0; z < holder.size(); z++){
-				max_chain.push_front(holder[z].min);
-		}
-	}
+	for (size_t j = 0; j < min_chain.size(); j++)
+		std::cout << min_chain[j] << ", ";
+	std::cout << std::endl;
+	max_chain = pairing(max_chain);
 	
+	//APPLY MIN CHECK SORT THROUGH BINARY SEARCH & JACOBTHAL NUMBER
+	
+	if (min_chain.size() == 1)
+		max_chain.push_front(min_chain[0]);
+	else{
+		std::cout << "JacobThal of " << min_chain.size() << " is: ";
+		std::deque<int> x = JacobThalSequence(min_chain.size());
+		for (size_t j = 0; j <x.size(); j++)
+			std::cout <<x[j] << ", ";
+		 std::cout << std::endl;
+
+
+		//BINARY SEARCH
+		//Each pending value has a restricted search boundary (up to its paired max).
+		// EG 83 will not look further than 99 (its paired max);
+	}
+
 	std::cout << "Returning: ";
 	for (size_t i = 0; i < max_chain.size(); i++)
 		std::cout << max_chain[i] << " ";
 	std::cout << std::endl;
 
 	recur--;
-	//sorted_max_chain.push_back(max_chain[0]);
 	return (max_chain);
-	//END OF PRINT
-
-}
-
-/* std::deque<unsigned int> ford_johnson_max(std::deque<unsigned int> input)
-{
-    // Base case
-    if (input.size() <= 1)
-        return input;
-
-    std::deque<t_pairs> pairs;
-    std::deque<unsigned int> max_values;
-
-    // Build pairs
-    while (input.size() >= 2)
-    {
-        unsigned int a = input.front();
-        input.pop_front();
-
-        unsigned int b = input.front();
-        input.pop_front();
-
-        t_pairs p(a, b);
-        pairs.push_back(p);
-        max_values.push_back(p.max);
-    }
-
-    // Handle leftover
-    if (!input.empty()){
-
-        max_values.push_back(input.front());
-	}
-
-	std::cout << "Returning: ";
-	for (size_t i = 0; i < max_values.size(); i++)
-		std::cout << max_values[i] << " ";
-	std::cout << std::endl;
-    // Recursively sort max values
-    return ford_johnson_max(max_values);
-} */
-/* void PmergeMe::pairing(std::deque<unsigned int> aux){
-	//std::deque<t_pairs> holder;
-	size_t size = aux.size() / 2;
-	for (size_t i = 0; i < size; i++){
-		unsigned int x = aux.front();
-		aux.pop_front();
-		t_pairs p(x, aux.front());
-		p.id = 0;
-		_dsort.push_back(p);
-		aux.pop_front();
-	}
-	//JUST FOR PRINTING PURPOSES
-	std::cout << "Pairing #0" << std::endl;
-	for (size_t j = 0; j < _dsort.size(); j++){
-		std::cout << _dsort[j].min << " " << _dsort[j].max << ", ";
-	}
-	if (!aux.empty())
-	{
-		std::cout << "r => ";
-		for (size_t z = 0; z < aux.size(); z++){
-			std::cout << aux[0] << ", ";
-		}
-	}
-	std::cout << std::endl;
-	//END OF PRINT
-
-} */
-
-
-void PmergeMe::insertion(){
-
-//	std::deque<unsigned int> main;
-	std::deque<unsigned int> chain;
-	t_pairs top = _dsort.back();
-	chain.push_front(top.max);
-	chain.push_front(top.min);
-	// I dont think i need to add the other id to the _dsort just the initial pairing
-	//FIND MATCH OF MAX
-	int i = (int)_dsort.size() - 2; // this is the previous from top layer
-	while (i){
-		if (top.max == _dsort[i].max)
-		{
-			chain.push_front(_dsort[i].min);
-			break ;
-		}
-		i--;
-	}
-	i = (int)_dsort.size() - 2;
-	while (i){
-		if (top.min == _dsort[i].max)
-		{
-			chain.push_front(_dsort[i].min);
-			break ;
-		}
-		i--;
-	}
-	for (size_t j = 0; j < chain.size(); j++){
-		std::cout << chain[j] << ", ";
-	}
 
 }
 
 void PmergeMe::dequeSort(std::deque<unsigned int> aux){
 	std::deque<unsigned int> max_chain; 
 	max_chain = pairing(aux);
+	std::cout << "Sorted: " ;
 	for (size_t j = 0; j < max_chain.size(); j++)
 		std::cout << max_chain[j] << ", ";
-	//max_chain = recursive_pairing(_dsort);
-	/* for (size_t j = 0; j < max_chain.size(); j++){
-		std::cout << max_chain[j] << ", ";
-	}
 	std::cout << std::endl;
-	for (size_t z = 0; z < max_chain.size(); z++){
-		for(size_t i = 0; i < _dsort.size() && _dsort[i].id == 0; i++)
-		{
-			if (_dsort[i].max == max_chain[z]){
-				std::cout << _dsort[i].min << ", ";
-				break ;
-			}
-		}
-		
-	}
-		std::cout << std::endl; */
-	//insertion();
+
 }
 
 void PmergeMe::fill_containers(int argc, char *argv[])
