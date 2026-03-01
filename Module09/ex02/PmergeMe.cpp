@@ -18,34 +18,47 @@ sequence
 */
 
 PmergeMe::PmergeMe(){
-	_tracker = 0;
 	//std::cout << "PmergeMe constructor called" << std::endl;
-	//do i have to init time to NULL?
-
 }
 
 PmergeMe::PmergeMe(int argc, char *argv[]){
-	_tracker = 0;
 	//std::cout << "PmergeMe string array constructor called" << std::endl;
-	this->johnsonFord(argc, argv);
+	this->initialise(argc, argv);
+}
+
+void PmergeMe::printDeque(){
+	for (size_t i = 0; i < _deque.size(); i++)
+		std::cout << _deque[i] << " ";
+	std::cout << std::endl;
+}
+void print(std::deque<unsigned int> deque){
+	for (size_t i = 0; i < deque.size(); i++)
+		std::cout << deque[i] << " ";
+	std::cout << std::endl;
 }
 
 PmergeMe::~PmergeMe(){}
 
-void PmergeMe::johnsonFord(int argc, char *argv[]){
-	_tracker = 0;
+void PmergeMe::initialise(int argc, char *argv[]){
+	clock_t time;
 	this->fill_containers(argc, argv);
+	std::cout << "Before: ";
+	printDeque();
 	//start deque timer
-	dequeSort(_deque);
-	std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque: " << std::endl;
+	time = clock();
+	_deque = johnsonFord_deq(_deque);
+	time = clock() - time;
+	std::cout << "After: ";
+	printDeque();
+	std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque: " << std::fixed << ((float)time / CLOCKS_PER_SEC) << std::endl; //need to set precision to ensure it doesnt to scientific notation
 	
+	time = clock() - time;
+	_vector = johnsonFord_vec(_vector);
+	time = clock() - time;
+	std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector: " << ((float)time / CLOCKS_PER_SEC) << std::endl;
 	
-	//start vector time
-	//_vector.vectorSort();
-	//std::cout << "Time to process a range of" << argc - 1 << "elements with std::vector: " << std::endl;
-
 }
-//we could in theory make both of these templates for deque and vector (maybe deque can push front using other function for insertion)
+
 int PmergeMe::JacobThal(size_t n){
 	int Jn;
 	int x;
@@ -58,10 +71,10 @@ int PmergeMe::JacobThal(size_t n){
 	return (x);
 }
 
-std::deque<int> PmergeMe::JacobThalSequence(size_t n){
+std::deque< unsigned int> PmergeMe::JacobThalSequence(size_t n){
 	int Jn;
 	size_t i = 1;
-	std::deque<int> JTSequence;
+	std::deque< unsigned int> JTSequence;
 	while (i++ < n){
 		Jn = JacobThal(i);
 		if (Jn >= (int)n)
@@ -70,113 +83,85 @@ std::deque<int> PmergeMe::JacobThalSequence(size_t n){
 			JTSequence.push_back(Jn);
 		else
 			JTSequence.push_back(n);
-		/* if (Jn >= (int)n)
-			break ; */
 		if (i >= 3 && JTSequence.size() < n){
 			Jn = *JTSequence.rbegin();
 			JTSequence.push_back(Jn - 1);
 		}
 	}
-	std::cout << "Jn SIZE: " << JTSequence.size() << std::endl;
 	if (JTSequence.size() < n)
 	{
 		for (size_t j = n; JTSequence.size() < n; j--)
 			JTSequence.push_back((int)j);
 	}
-	/* for (size_t j = 0; j <JTSequence.size(); j++)
-			std::cout <<JTSequence[j] << ", "; */
 	return (JTSequence);
 }
 
-std::deque<unsigned int> PmergeMe::pairing(std::deque<unsigned int> aux){
-	//std::deque<t_pairs> holder;
+std::deque<unsigned int> PmergeMe::johnsonFord_deq(std::deque<unsigned int> aux){
 	if (aux.size() <= 1){
 		return (aux);
 	}
 	std::deque<unsigned int> max_chain; 
 	std::deque<unsigned int> min_chain; 
 	std::deque<unsigned int> sorted_chain; 
-	static int recur;
-	recur++;
+	//std::deque<unsigned int>::iterator iter = aux.begin();
 	size_t size = aux.size() / 2;
+	//size_t i = 0;
+
+	//std::deque<unsigned int>::iterator it = aux.begin();
+
+	//std::cout << size << std::endl;
 	for (size_t i = 0; i < size; i++){
 		unsigned int x = aux.front();
-		aux.pop_front();	
+		aux.erase(aux.begin());	
 		t_pairs p(x, aux.front());
-		p.id = recur;
-		//_dsort.push_back(p);
-		//holder.push_back(p);
-		aux.pop_front();
+		aux.erase(aux.begin());
 		max_chain.push_back(p.max);
 		min_chain.push_back(p.min);
 	}
-	//JUST FOR PRINTING PURPOSES
-/* 	std::cout << "Pairing #"<< recur << std::endl;
-	for (size_t j = 0; j < _dsort.size(); j++){
-		std::cout << _dsort[j].min << " " << _dsort[j].max << ", ";
-	} */
-	
 	if (!aux.empty())
-	{
-		if (recur == 1)
-			min_chain.push_back(aux[0]);
-		else
-			max_chain.push_back(aux[0]);
-		std::cout << "r => ";
-		for (size_t z = 0; z < aux.size(); z++){
-			std::cout << aux[0] << ", ";
-		}
-	}
-
-	//I AM MISSING A NUMBER!!!
-	std::cout << std::endl;
-	std::cout << "MAX CHAIN: ";
-	for (size_t j = 0; j < max_chain.size(); j++)
-		std::cout << max_chain[j] << ", ";
-	std::cout << std::endl;
-	std::cout << "MIN CHAIN: ";
-	for (size_t j = 0; j < min_chain.size(); j++)
-		std::cout << min_chain[j] << ", ";
-	std::cout << std::endl;
-	sorted_chain = pairing(max_chain);
-	
-	//APPLY MIN CHECK SORT THROUGH BINARY SEARCH & JACOBTHAL NUMBER
-	
+			max_chain.push_back(*aux.rbegin());
+	//aux.clear(); // dont need it anymore
+	sorted_chain = johnsonFord_deq(max_chain);	
 	if (min_chain.size() == 1)
-		sorted_chain.push_front(min_chain[0]);
+		sorted_chain.insert(sorted_chain.begin(), min_chain[0]);
 	else{
-		std::cout << "JacobThal of " << min_chain.size() << " is: ";
-		std::deque<int> x = JacobThalSequence(min_chain.size());
-		for (size_t j = 0; j <x.size(); j++){
-			//std::cout << min_chain[x[j] - 1] << ", ";
-			std::cout <<x[j] << ", ";
-		}
-		std::cout << std::endl;
+		std::deque<unsigned int> x = JacobThalSequence(min_chain.size());
 		for (size_t i = 0; i < x.size() ; i++){
 			std::deque<unsigned int>::iterator it = lower_bound(sorted_chain.begin(), std::find(sorted_chain.begin(), sorted_chain.end(),max_chain[x[i] - 1]), min_chain[x[i] -1]);
-			std::cout << "min val: " << min_chain[x[i] -1] << " max value: " << max_chain[x[i] - 1]<< " found it = " << *it <<std::endl;	
 			sorted_chain.insert(it, min_chain[x[i] - 1]);
 		}
 	}
-
-	std::cout << "Returning: ";
-	for (size_t i = 0; i < sorted_chain.size(); i++)
-		std::cout << sorted_chain[i] << " ";
-	std::cout << std::endl;
-
-	recur--;
 	return (sorted_chain);
-
 }
-
-void PmergeMe::dequeSort(std::deque<unsigned int> aux){
-	std::deque<unsigned int> max_chain; 
-	max_chain = pairing(aux);
-	std::cout << "Sorted: " ;
-	for (size_t j = 0; j < max_chain.size(); j++)
-		std::cout << max_chain[j] << ", ";
-	std::cout << std::endl;
-
+std::vector<unsigned int> PmergeMe::johnsonFord_vec(std::vector<unsigned int> aux){
+	if (aux.size() <= 1){
+		return (aux);
+	}
+	std::vector<unsigned int> max_chain; 
+	std::vector<unsigned int> min_chain; 
+	std::vector<unsigned int> sorted_chain; 
+	size_t size = aux.size() / 2;
+	for (size_t i = 0; i < size; i++){
+		unsigned int x = aux.front();
+		aux.erase(aux.begin());	
+		t_pairs p(x, aux.front());
+		aux.erase(aux.begin());
+		max_chain.push_back(p.max);
+		min_chain.push_back(p.min);
+	}
+	if (!aux.empty())
+			max_chain.push_back(aux[0]);
+	sorted_chain = johnsonFord_vec(max_chain);	
+	if (min_chain.size() == 1)
+		sorted_chain.insert(sorted_chain.begin(), min_chain[0]);
+	else{
+		std::deque<unsigned int> x = JacobThalSequence(min_chain.size());
+		for (size_t i = 0; i < x.size() ; i++){
+			std::vector<unsigned int>::iterator it = lower_bound(sorted_chain.begin(), std::find(sorted_chain.begin(), sorted_chain.end(),max_chain[x[i] - 1]), min_chain[x[i] -1]);
+			sorted_chain.insert(it, min_chain[x[i] - 1]);
+		}
+	}
+	return (sorted_chain);
 }
 
 void PmergeMe::fill_containers(int argc, char *argv[])
