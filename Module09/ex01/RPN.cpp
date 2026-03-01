@@ -2,8 +2,8 @@
 #include "RPN.hpp"
 
 RPN::RPN(){
-    std::cerr << "Construction failed. No input" << std::endl;
-    throw(WrongExpression());
+    std::cerr << "RPN constructor called" << std::endl;
+   // throw(WrongExpression());
 }
 
 RPN::RPN(std::string arg){
@@ -17,22 +17,16 @@ RPN::RPN(const RPN & other){
         this->_stack = other._stack;
     }
 }
-//check the copy of this as we have to go to the end and then reverse to push
-    //or rather push into a temp from top then pop then use this new reverse stack to push into original and copy
+
 RPN & RPN::operator=(const RPN & other)
 {
     if (this != &other)
-    {
         this->_stack = other._stack;
-/*         _stack.clear();
-        for(size_t i = other._stack.size(); i >= 0; --i)
-            _stack.push(other._stack[i]); */
-    }
     return (*this);
 }
 
 RPN::~RPN(){
-    std::cout << "RPN destructor called" << std::endl;
+   // std::cout << "RPN destructor called" << std::endl;
 }
 
 void RPN::process_expression(std::string arg){
@@ -48,7 +42,7 @@ void RPN::process_expression(std::string arg){
         {
             _stack.push(static_cast<long>(arg[i] - 48));
             if (_stack.top() < 0)
-                throw(DigitOutOfBounds()); //dont need this covered by wrong expression
+                throw(DigitOutOfBounds());
             check++;
             if (check > 1)
                 throw(DigitOutOfBounds());
@@ -75,49 +69,41 @@ void RPN::process_expression(std::string arg){
 int RPN::is_operator(char c){
     //use enums
     if (c == '+')
-        return (1);
+        return ('+');
     if (c == '-')
-        return (2);
+        return ('-');
     if (c == '/')
-        return (3);
+        return ('/');
     if (c == '*')
-        return (4);
+        return ('*');
     return (0);
 }
 
 int RPN::do_operation(int first, int second, int oper){
     switch (oper)
     {
-        case 1:
+        case '+':
         {
-            std::cout << first <<  " + " << second  << " = " << first + second << std::endl; 
+           // std::cout << first <<  " + " << second  << " = " << first + second << std::endl; 
             return (first + second);
         }
-        case 2:
+        case '-':
         {
-            std::cout << first <<  " - " << second  << " = " << first - second << std::endl; 
+           // std::cout << first <<  " - " << second  << " = " << first - second << std::endl; 
             return (first - second);
         }
-        case 3:
+        case '/':
         {
             if (second == 0)
                 throw(DivideByZero());
-            std::cout << first <<  " / " << second  << " = " << first / second << std::endl; 
+           // std::cout << first <<  " / " << second  << " = " << first / second << std::endl; 
             return (first / second);
         }
-        case 4:
+        case '*':
         {
-            std::cout << first <<  " * " << second  << " = " << first * second << std::endl; 
+          //  std::cout << first <<  " * " << second  << " = " << first * second << std::endl; 
             return (first * second);
         }
-/*         case 1: //can do enums here
-            return (first + second);
-        case 2:
-            return (first - second);
-        case 3:
-            return (first / second);
-        case 4:
-            return (first * second); */
     }
    return (0);
 }

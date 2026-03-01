@@ -23,6 +23,13 @@ int main (int argc, char *argv[])
     catch (std::exception &e){
         std::cerr << e.what() << std::endl;
     }
+    try{
+        RPN calc_1;
+        calc_1.process_expression(argv[1]);
+    }
+    catch (std::exception &e){
+        std::cerr << e.what() << std::endl;
+    }
 
 }
 
