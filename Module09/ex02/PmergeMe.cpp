@@ -1,22 +1,6 @@
 
 #include "PmergeMe.hpp"
 
-/* 
-Here are some additional guidelines on the information you should display line by line
-on the standard output:
-• On the first line you must display an explicit text followed by the unsorted positive
-integer sequence.
-• On the second line you must display an explicit text followed by the sorted positive
-integer sequence.
-• On the third line, you must display an explicit message indicating the time taken
-by your algorithm, specifying the first container used to sort the positive integer
-sequence.
-• On the last line you must display an explicit text indicating the time used by
-your algorithm by specifying the second container used to sort the positive integer
-sequence
-
-*/
-
 PmergeMe::PmergeMe(){
 	//std::cout << "PmergeMe constructor called" << std::endl;
 }
@@ -26,37 +10,25 @@ PmergeMe::PmergeMe(int argc, char *argv[]){
 	this->initialise(argc, argv);
 }
 
-void PmergeMe::printDeque(){
-	for (size_t i = 0; i < _deque.size(); i++)
-		std::cout << _deque[i] << " ";
-	std::cout << std::endl;
-}
-void print(std::deque<unsigned int> deque){
-	for (size_t i = 0; i < deque.size(); i++)
-		std::cout << deque[i] << " ";
-	std::cout << std::endl;
-}
-
 PmergeMe::~PmergeMe(){}
 
 void PmergeMe::initialise(int argc, char *argv[]){
 	clock_t time;
 	this->fill_containers(argc, argv);
 	std::cout << "Before: ";
-	printDeque();
-	//start deque timer
+	printContainer(_deque);
 	time = clock();
 	_deque = johnsonFord_deq(_deque);
 	time = clock() - time;
 	std::cout << "After: ";
-	printDeque();
-	std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque: " << std::fixed << ((float)time / CLOCKS_PER_SEC) << std::endl; //need to set precision to ensure it doesnt to scientific notation
+	printContainer(_deque);
+	std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque: " << std::fixed << ((float)time / CLOCKS_PER_SEC) << " seconds" << std::endl; //need to set precision to ensure it doesnt to scientific notation
 	
 	time = clock() - time;
 	_vector = johnsonFord_vec(_vector);
+	//printContainer(_vector);
 	time = clock() - time;
-	std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector: " << ((float)time / CLOCKS_PER_SEC) << std::endl;
-	
+	std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector: " << ((float)time / CLOCKS_PER_SEC) << " seconds" << std::endl;
 }
 
 int PmergeMe::JacobThal(size_t n){
@@ -103,13 +75,8 @@ std::deque<unsigned int> PmergeMe::johnsonFord_deq(std::deque<unsigned int> aux)
 	std::deque<unsigned int> max_chain; 
 	std::deque<unsigned int> min_chain; 
 	std::deque<unsigned int> sorted_chain; 
-	//std::deque<unsigned int>::iterator iter = aux.begin();
 	size_t size = aux.size() / 2;
-	//size_t i = 0;
-
-	//std::deque<unsigned int>::iterator it = aux.begin();
-
-	//std::cout << size << std::endl;
+	
 	for (size_t i = 0; i < size; i++){
 		unsigned int x = aux.front();
 		aux.erase(aux.begin());	
@@ -120,7 +87,6 @@ std::deque<unsigned int> PmergeMe::johnsonFord_deq(std::deque<unsigned int> aux)
 	}
 	if (!aux.empty())
 			max_chain.push_back(*aux.rbegin());
-	//aux.clear(); // dont need it anymore
 	sorted_chain = johnsonFord_deq(max_chain);	
 	if (min_chain.size() == 1)
 		sorted_chain.insert(sorted_chain.begin(), min_chain[0]);
@@ -133,6 +99,7 @@ std::deque<unsigned int> PmergeMe::johnsonFord_deq(std::deque<unsigned int> aux)
 	}
 	return (sorted_chain);
 }
+
 std::vector<unsigned int> PmergeMe::johnsonFord_vec(std::vector<unsigned int> aux){
 	if (aux.size() <= 1){
 		return (aux);
@@ -181,7 +148,7 @@ void PmergeMe::fill_containers(int argc, char *argv[])
 		}
 		char* end;
 		long n = std::strtol(temp.c_str(), &end, 10);
-		if (n < 0 || n > INT_MAX) //dont think i need negative check as it should fault on the minus // should be unsinged int max
+		if (n < 0 || n > INT_MAX)
 			throw(InvalidInput());
 		if (!_deque.empty()){
 			size = _deque.size();
