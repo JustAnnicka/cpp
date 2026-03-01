@@ -41,12 +41,6 @@ bool BitcoinExchange::createDatabase(std::string input){
                     std::string value = line.substr(11);
                     float n = isDBValueValid(value);  
                     _db.insert (std::pair<std::string,float>(date,n));
-                 /*    it = _db.insert (std::pair<std::string,float>(date,n));
-                    if (it.second==false) {
-                        std::cout << "element 'z' already existed";
-                        std::cout << " with a value of " << it.first->second << '\n';
-                        return(false);
-                    }  */
                 }
                 catch(std::exception &e)
                 {
@@ -55,14 +49,6 @@ bool BitcoinExchange::createDatabase(std::string input){
                     return(false);
                 }
             }
-            // check for first line and skip validity checks (date,exchange_rate)
-            /* if (!isDatabaseValid(line))
-            {
-                std::cout << "Error: csv format not valid file." << std::endl;
-                file.close();
-                return(false);
-            } */
-            
         }
     }
     file.close();
@@ -82,12 +68,17 @@ void BitcoinExchange::findBitcoinValue(std::string input){
        float rate = itLow->second;
         std::cout << date << " => " << value << " = " << std::setprecision(2) << n * rate << std::endl;
     }
-    catch(FormatNotValid::exception &e) // make specific catches to print correspoding value
+    catch(FormatNotValid &e)
     {
         std::cout << e.what() << input << std::endl;
         return ;
     }
-    catch(DateNotValid::exception &e)
+    catch(NegativeValue &e)
+    {
+        std::cout << e.what() << std::endl;
+        return ;
+    }
+    catch(DateNotValid &e)
     {
         std::cout << e.what() << input.substr(0,10) << std::endl;
         return ;
@@ -149,7 +140,7 @@ float BitcoinExchange::isDBValueValid(std::string str){
     std::stringstream ss(str);
     ss >> n;
     if (ss.fail()){
-        throw(ValueNotValid()); //maybe OverMaxValue
+        throw(ValueNotValid());
     }
     if (n < 0)
         throw(NegativeValue());
